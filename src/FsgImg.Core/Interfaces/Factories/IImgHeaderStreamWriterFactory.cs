@@ -1,6 +1,7 @@
-﻿using System.IO;
+﻿using FsgImg.Core.Interfaces.IO;
+using System.IO;
 
-namespace FsgImg.Core.Interfaces
+namespace FsgImg.Core.Interfaces.Factories
 {
     public interface IImgHeaderStreamWriterFactory
     {

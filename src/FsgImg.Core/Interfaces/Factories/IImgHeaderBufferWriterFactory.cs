@@ -1,4 +1,6 @@
-﻿namespace FsgImg.Core.Interfaces
+﻿using FsgImg.Core.Interfaces.IO;
+
+namespace FsgImg.Core.Interfaces.Factories
 {
     public interface IImgHeaderBufferWriterFactory
     {

@@ -1,5 +1,6 @@
 ﻿using FsgImg.Core.Enums;
 using FsgImg.Core.Interfaces;
+using FsgImg.Core.Interfaces.IO;
 using FsgImg.IO;
 using System;
 using System.Buffers.Binary;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace FsgImg.Core.Interfaces
+namespace FsgImg.Core.Interfaces.IO
 {
     public interface IImgHeaderReader : IDisposable
     {

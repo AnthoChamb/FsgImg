@@ -1,4 +1,6 @@
 ﻿using FsgImg.Core.Interfaces;
+using FsgImg.Core.Interfaces.Factories;
+using FsgImg.Core.Interfaces.IO;
 using System.IO;
 using System.Threading.Tasks;
 
