@@ -28,7 +28,7 @@ namespace FsgImg.Core.IO
         {
         }
 
-        public Task WriteAsync(IImgHeader imgHeader)
+        public void Write(IImgHeader imgHeader)
         {
             var span = new Span<byte>(_buffer, _offset, _count);
             var options = new ImgOptions(imgHeader);
@@ -46,7 +46,11 @@ namespace FsgImg.Core.IO
             BinaryPrimitives.WriteUInt16BigEndian(span.Slice(start += sizeof(ushort), sizeof(ushort)), (ushort)imgHeader.Game);
             EndianBinaryPrimitives.WriteUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), (ushort)(options.IncludeBaseLevelMipmap ? imgHeader.MipmapCount : imgHeader.MipmapCount - 1), options.IsLittleEndian);
             BinaryPrimitives.WriteUInt16BigEndian(span.Slice(start += sizeof(ushort), sizeof(ushort)), (ushort)imgHeader.Platform);
+        }
 
+        public Task WriteAsync(IImgHeader imgHeader)
+        {
+            Write(imgHeader);
             return Task.CompletedTask;
         }
     }

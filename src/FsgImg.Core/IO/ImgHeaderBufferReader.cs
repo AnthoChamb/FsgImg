@@ -28,7 +28,7 @@ namespace FsgImg.Core.IO
         {
         }
 
-        public Task<IImgHeader> ReadAsync()
+        public IImgHeader Read()
         {
             var span = new ReadOnlySpan<byte>(_buffer, _offset, _count);
 
@@ -51,7 +51,12 @@ namespace FsgImg.Core.IO
             }
             imgHeader.MipmapCount = mipmapCount;
 
-            return Task.FromResult(imgHeader);
+            return imgHeader;
+        }
+
+        public Task<IImgHeader> ReadAsync()
+        {
+            return Task.FromResult(Read());
         }
     }
 }

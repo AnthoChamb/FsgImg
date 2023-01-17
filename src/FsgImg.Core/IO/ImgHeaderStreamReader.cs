@@ -37,6 +37,24 @@ namespace FsgImg.Core.IO
             }
         }
 
+        public IImgHeader Read()
+        {
+            // TODO: Use ArrayPool when available
+            var buffer = new byte[20];
+            // TODO: Use ReadExactly when available
+            var bytesRead = _stream.Read(buffer, 0, buffer.Length);
+
+            if (bytesRead != buffer.Length)
+            {
+                throw new EndOfStreamException();
+            }
+
+            using (var reader = _factory.Create(buffer, 0, buffer.Length))
+            {
+                return reader.Read();
+            }
+        }
+
         public async Task<IImgHeader> ReadAsync()
         {
             // TODO: Use ArrayPool when available

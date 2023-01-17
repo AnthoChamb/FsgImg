@@ -37,6 +37,19 @@ namespace FsgImg.Core.IO
             }
         }
 
+        public void Write(IImgHeader imgHeader)
+        {
+            // TODO: Use ArrayPool when available
+            var buffer = new byte[20];
+
+            using (var writer = _factory.Create(buffer, 0, buffer.Length))
+            {
+                writer.Write(imgHeader);
+            }
+
+            _stream.Write(buffer, 0, buffer.Length);
+        }
+
         public async Task WriteAsync(IImgHeader imgHeader)
         {
             // TODO: Use ArrayPool when available
