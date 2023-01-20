@@ -31,12 +31,12 @@ namespace FsgImg.Core.IO
         public void Write(IImgHeader imgHeader)
         {
             var span = new Span<byte>(_buffer, _offset, _count);
-            var options = new ImgOptions(imgHeader);
+            var options = new ImgHeaderOptions(imgHeader);
             var start = 0;
 
             EndianBinaryPrimitives.WriteUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), imgHeader.Width, options.IsLittleEndian);
             EndianBinaryPrimitives.WriteUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), imgHeader.Height, options.IsLittleEndian);
-            EndianBinaryPrimitives.WriteUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), imgHeader.Height, options.IsLittleEndian);
+            EndianBinaryPrimitives.WriteUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), imgHeader.Depth, options.IsLittleEndian);
             EndianBinaryPrimitives.WriteUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), imgHeader.Width, options.IsLittleEndian);
 
             ushort unk = 0x00_00;
@@ -44,7 +44,9 @@ namespace FsgImg.Core.IO
 
             BinaryPrimitives.WriteUInt32BigEndian(span.Slice(start += sizeof(uint), sizeof(uint)), (uint)imgHeader.TextureFormat);
             BinaryPrimitives.WriteUInt16BigEndian(span.Slice(start += sizeof(ushort), sizeof(ushort)), (ushort)imgHeader.Game);
-            EndianBinaryPrimitives.WriteUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), (ushort)(options.IncludeBaseLevelMipmap ? imgHeader.MipmapCount : imgHeader.MipmapCount - 1), options.IsLittleEndian);
+
+            var mipmapCount = imgHeader.MipmapCount;
+            EndianBinaryPrimitives.WriteUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), (ushort)(options.IncludesBaseLevelMipmap ? mipmapCount : mipmapCount - 1), options.IsLittleEndian);
             BinaryPrimitives.WriteUInt16BigEndian(span.Slice(start += sizeof(ushort), sizeof(ushort)), (ushort)imgHeader.Platform);
         }
 

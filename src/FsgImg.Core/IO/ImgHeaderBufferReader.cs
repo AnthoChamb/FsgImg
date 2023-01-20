@@ -37,14 +37,14 @@ namespace FsgImg.Core.IO
             imgHeader.Game = (ImgGame)BinaryPrimitives.ReadUInt16BigEndian(span.Slice(14, sizeof(ushort)));
             imgHeader.Platform = (ImgPlatform)BinaryPrimitives.ReadUInt16BigEndian(span.Slice(18, sizeof(ushort)));
 
-            var options = new ImgOptions(imgHeader);
+            var options = new ImgHeaderOptions(imgHeader);
 
             imgHeader.Width = EndianBinaryPrimitives.ReadUInt16(span.Slice(0, sizeof(ushort)), options.IsLittleEndian);
             imgHeader.Height = EndianBinaryPrimitives.ReadUInt16(span.Slice(2, sizeof(ushort)), options.IsLittleEndian);
             imgHeader.Depth = EndianBinaryPrimitives.ReadUInt16(span.Slice(4, sizeof(ushort)), options.IsLittleEndian);
 
             var mipmapCount = EndianBinaryPrimitives.ReadUInt16(span.Slice(6, sizeof(ushort)), options.IsLittleEndian);
-            if (!options.IncludeBaseLevelMipmap)
+            if (!options.IncludesBaseLevelMipmap)
             {
                 // Add base level mipmap
                 mipmapCount += 1;
