@@ -32,9 +32,25 @@ namespace FsgImg.Core.IO
         {
             var span = new ReadOnlySpan<byte>(_buffer, _offset, _count);
 
-            IImgHeader imgHeader = new ImgHeader();
-            imgHeader.TextureFormat = (ImgTextureFormat)BinaryPrimitives.ReadUInt32BigEndian(span.Slice(10, sizeof(uint)));
+            var imgHeader = new ImgHeader();
             imgHeader.Game = (ImgGame)BinaryPrimitives.ReadUInt16BigEndian(span.Slice(14, sizeof(ushort)));
+            
+            var textureFormat = BinaryPrimitives.ReadUInt32BigEndian(span.Slice(10, sizeof(uint)));
+            if (imgHeader.Game == ImgGame.Djh)
+            {
+                // Djh texture format values may only be on two bytes
+                switch (textureFormat & 0xFF_FF_00_00u)
+                {
+                    case (uint)ImgTextureFormat.DdsDxt3 & 0xFF_FF_00_00u:
+                        textureFormat = (uint)ImgTextureFormat.DdsDxt3;
+                        break;
+                    case (uint)ImgTextureFormat.DdsDxt5 & 0xFF_FF_00_00u:
+                        textureFormat = (uint)ImgTextureFormat.DdsDxt5;
+                        break;
+                }
+            }
+
+            imgHeader.TextureFormat = (ImgTextureFormat)textureFormat;
             imgHeader.Platform = (ImgPlatform)BinaryPrimitives.ReadUInt16BigEndian(span.Slice(18, sizeof(ushort)));
 
             var options = new ImgHeaderOptions(imgHeader);
