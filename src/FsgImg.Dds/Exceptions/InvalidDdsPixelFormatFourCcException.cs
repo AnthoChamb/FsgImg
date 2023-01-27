@@ -3,11 +3,11 @@ using FsgImg.Dds.Enums;
 
 namespace FsgImg.Dds.Exceptions
 {
-    public class InvalidPixelFormatFourCcException : FsgImgException
+    public class InvalidDdsPixelFormatFourCcException : FsgImgException
     {
         public DdsFourCc FourCc { get; }
 
-        public InvalidPixelFormatFourCcException(DdsFourCc fourCc)
+        public InvalidDdsPixelFormatFourCcException(DdsFourCc fourCc)
         {
             FourCc = fourCc;
         }
