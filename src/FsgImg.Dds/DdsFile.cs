@@ -4,7 +4,7 @@ namespace FsgImg.Dds
 {
     public class DdsFile : IDdsFile
     {
-        public uint Magic { get; set; } = 0x20_53_44_44u;
+        public uint Magic { get; set; } = DdsConstants.DdsFileMagic;
         public IDdsHeader Header { get; set; }
         public IDdsHeaderDxt10 HeaderDxt10 { get; set; }
     }

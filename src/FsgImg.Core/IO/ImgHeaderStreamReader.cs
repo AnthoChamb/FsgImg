@@ -40,7 +40,7 @@ namespace FsgImg.Core.IO
         public IImgHeader Read()
         {
             // TODO: Use ArrayPool when available
-            var buffer = new byte[20];
+            var buffer = new byte[ImgConstants.ImgHeaderSize];
             // TODO: Use ReadExactly when available
             var bytesRead = _stream.Read(buffer, 0, buffer.Length);
 
@@ -58,7 +58,7 @@ namespace FsgImg.Core.IO
         public async Task<IImgHeader> ReadAsync()
         {
             // TODO: Use ArrayPool when available
-            var buffer = new byte[20];
+            var buffer = new byte[ImgConstants.ImgHeaderSize];
             // TODO: Use ReadExactlyAsync when available
             var bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
 
