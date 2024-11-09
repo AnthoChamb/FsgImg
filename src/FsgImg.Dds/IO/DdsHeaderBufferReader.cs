@@ -1,8 +1,9 @@
-﻿using FsgImg.Dds.Enums;
+﻿using FsgImg.Dds.Abstractions;
+using FsgImg.Dds.Abstractions.Enums;
+using FsgImg.Dds.Abstractions.Interfaces;
+using FsgImg.Dds.Abstractions.Interfaces.Factories;
+using FsgImg.Dds.Abstractions.Interfaces.IO;
 using FsgImg.Dds.Exceptions;
-using FsgImg.Dds.Interfaces;
-using FsgImg.Dds.Interfaces.Factories;
-using FsgImg.Dds.Interfaces.IO;
 using System;
 using System.Buffers.Binary;
 using System.Threading.Tasks;

@@ -1,4 +1,4 @@
-﻿using FsgImg.IO.Interfaces;
+﻿using FsgImg.Abstractions.Interfaces;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;

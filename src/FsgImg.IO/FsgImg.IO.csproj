@@ -8,4 +8,8 @@
     <PackageReference Include="System.Memory" Version="4.5.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FsgImg.Abstractions\FsgImg.Abstractions.csproj" />
+  </ItemGroup>
+
 </Project>

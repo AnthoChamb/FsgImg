@@ -1,5 +1,5 @@
-﻿using FsgImg.Core.Exceptions;
-using FsgImg.Dds.Enums;
+﻿using FsgImg.Abstractions.Exceptions;
+using FsgImg.Dds.Abstractions.Enums;
 
 namespace FsgImg.Dds.Exceptions
 {

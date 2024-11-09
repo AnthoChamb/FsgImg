@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FsgImg.Core\FsgImg.Core.csproj" />
+    <ProjectReference Include="..\FsgImg.Dds.Abstractions\FsgImg.Dds.Abstractions.csproj" />
+    <ProjectReference Include="..\FsgImg.IO\FsgImg.IO.csproj" />
   </ItemGroup>
 
 </Project>

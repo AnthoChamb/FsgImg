@@ -1,6 +1,7 @@
-﻿using FsgImg.Dds.Interfaces;
-using FsgImg.Dds.Interfaces.Factories;
-using FsgImg.Dds.Interfaces.IO;
+﻿using FsgImg.Dds.Abstractions;
+using FsgImg.Dds.Abstractions.Interfaces;
+using FsgImg.Dds.Abstractions.Interfaces.Factories;
+using FsgImg.Dds.Abstractions.Interfaces.IO;
 using System.IO;
 using System.Threading.Tasks;
 

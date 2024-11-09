@@ -1,5 +1,5 @@
-﻿using FsgImg.Dds.Enums;
-using FsgImg.Dds.Interfaces;
+﻿using FsgImg.Dds.Abstractions.Enums;
+using FsgImg.Dds.Abstractions.Interfaces;
 
 namespace FsgImg.Dds
 {

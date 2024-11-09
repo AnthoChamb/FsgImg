@@ -1,4 +1,4 @@
-﻿using FsgImg.Core.Exceptions;
+﻿using FsgImg.Abstractions.Exceptions;
 
 namespace FsgImg.Dds.Exceptions
 {
