@@ -7,7 +7,17 @@ namespace FsgImg
     {
         public ImgHeaderOptions(IImgHeader imgHeader)
         {
-            IsLittleEndian = IncludesBaseLevelMipmap = imgHeader.Platform == ImgPlatform.IOs;
+            switch (imgHeader.Platform)
+            {
+                case ImgPlatform.Pc:
+                case ImgPlatform.XboxOne:
+                    IsLittleEndian = true;
+                    break;
+                case ImgPlatform.IOs:
+                    IsLittleEndian = true;
+                    IncludesBaseLevelMipmap = true;
+                    break;
+            }
         }
 
         public bool IsLittleEndian { get; }

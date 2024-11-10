@@ -12,7 +12,7 @@ namespace FsgImg.Factories
         {
             switch (imgHeader.TextureFormat)
             {
-                case ImgTextureFormat.DdsRgba8:
+                case ImgTextureFormat.Rgba8:
                     // Reverse Rgba to Abgr
                     stream = new BufferTransformStream(stream, new ReverseIntBufferTransform());
                     break;

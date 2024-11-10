@@ -2,7 +2,6 @@
 using FsgImg.Abstractions.Interfaces.IO;
 using System;
 using System.Buffers.Binary;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace FsgImg.IO
@@ -36,16 +35,19 @@ namespace FsgImg.IO
             EndianBinaryPrimitives.WriteUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), imgHeader.Width, options.IsLittleEndian);
             EndianBinaryPrimitives.WriteUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), imgHeader.Height, options.IsLittleEndian);
             EndianBinaryPrimitives.WriteUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), imgHeader.Depth, options.IsLittleEndian);
-            EndianBinaryPrimitives.WriteUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), imgHeader.Width, options.IsLittleEndian);
-
-            ushort unk = 0x00_00;
-            MemoryMarshal.Write(span.Slice(start += sizeof(ushort), sizeof(ushort)), ref unk);
-
-            BinaryPrimitives.WriteUInt32BigEndian(span.Slice(start += sizeof(uint), sizeof(uint)), (uint)imgHeader.TextureFormat);
+            EndianBinaryPrimitives.WriteUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), imgHeader.Pitch, options.IsLittleEndian);
+            EndianBinaryPrimitives.WriteUInt32(span.Slice(start += sizeof(uint), sizeof(uint)), (uint)imgHeader.TextureFormat, options.IsLittleEndian);
+            EndianBinaryPrimitives.WriteUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), imgHeader.BcAlpha, options.IsLittleEndian);
             BinaryPrimitives.WriteUInt16BigEndian(span.Slice(start += sizeof(ushort), sizeof(ushort)), (ushort)imgHeader.Game);
 
             var mipmapCount = imgHeader.MipmapCount;
-            EndianBinaryPrimitives.WriteUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), (ushort)(options.IncludesBaseLevelMipmap ? mipmapCount : mipmapCount - 1), options.IsLittleEndian);
+            if (options.IncludesBaseLevelMipmap)
+            {
+                // Substract base level mipmap
+                mipmapCount -= 1;
+            }
+            EndianBinaryPrimitives.WriteUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), mipmapCount, options.IsLittleEndian);
+
             BinaryPrimitives.WriteUInt16BigEndian(span.Slice(start += sizeof(ushort), sizeof(ushort)), (ushort)imgHeader.Platform);
         }
 
