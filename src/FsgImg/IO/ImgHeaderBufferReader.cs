@@ -33,28 +33,25 @@ namespace FsgImg.IO
             var span = new ReadOnlySpan<byte>(_buffer, _offset, _count);
 
             var imgHeader = new ImgHeader();
-            imgHeader.Game = (ImgGame)BinaryPrimitives.ReadUInt16BigEndian(span.Slice(ImgConstants.GameOffset, sizeof(ushort)));
+            imgHeader.Platform = (ImgPlatform)BinaryPrimitives.ReadUInt16BigEndian(span.Slice(ImgConstants.PlatformOffset, sizeof(ushort)));
 
             var options = new ImgHeaderOptions(imgHeader);
-            var start = 0;
 
-            imgHeader.Width = EndianBinaryPrimitives.ReadUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), options.IsLittleEndian);
-            imgHeader.Height = EndianBinaryPrimitives.ReadUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), options.IsLittleEndian);
-            imgHeader.Depth = EndianBinaryPrimitives.ReadUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), options.IsLittleEndian);
-            imgHeader.Pitch = EndianBinaryPrimitives.ReadUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), options.IsLittleEndian);
-            imgHeader.TextureFormat = (ImgTextureFormat)EndianBinaryPrimitives.ReadUInt32(span.Slice(start += sizeof(uint), sizeof(uint)), options.IsLittleEndian);
-            imgHeader.BcAlpha = EndianBinaryPrimitives.ReadUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), options.IsLittleEndian);
+            imgHeader.Width = EndianBinaryPrimitives.ReadUInt16(span.Slice(ImgConstants.WidthOffset, sizeof(ushort)), options.IsLittleEndian);
+            imgHeader.Height = EndianBinaryPrimitives.ReadUInt16(span.Slice(ImgConstants.HeightOffset, sizeof(ushort)), options.IsLittleEndian);
+            imgHeader.Depth = EndianBinaryPrimitives.ReadUInt16(span.Slice(ImgConstants.DepthOffset, sizeof(ushort)), options.IsLittleEndian);
+            imgHeader.Pitch = EndianBinaryPrimitives.ReadUInt16(span.Slice(ImgConstants.PitchOffset, sizeof(ushort)), options.IsLittleEndian);
+            imgHeader.TextureFormat = (ImgTextureFormat)EndianBinaryPrimitives.ReadUInt32(span.Slice(ImgConstants.TextureFormatOffset, sizeof(uint)), options.IsLittleEndian);
+            imgHeader.BcAlpha = EndianBinaryPrimitives.ReadUInt16(span.Slice(ImgConstants.BcAlphaOffset, sizeof(ushort)), options.IsLittleEndian);
+            imgHeader.Game = (ImgGame)BinaryPrimitives.ReadUInt16BigEndian(span.Slice(ImgConstants.GameOffset, sizeof(ushort)));
 
-            start += sizeof(ushort); // Game
-            var mipmapCount = EndianBinaryPrimitives.ReadUInt16(span.Slice(start += sizeof(ushort), sizeof(ushort)), options.IsLittleEndian);
+            var mipmapCount = EndianBinaryPrimitives.ReadUInt16(span.Slice(ImgConstants.MipmapCountOffset, sizeof(ushort)), options.IsLittleEndian);
             if (!options.IncludesBaseLevelMipmap)
             {
                 // Add base level mipmap
                 mipmapCount += 1;
             }
             imgHeader.MipmapCount = mipmapCount;
-
-            imgHeader.Platform = (ImgPlatform)BinaryPrimitives.ReadUInt16BigEndian(span.Slice(start += sizeof(ushort), sizeof(ushort)));
 
             return imgHeader;
         }
