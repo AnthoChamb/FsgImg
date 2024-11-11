@@ -1,9 +1,9 @@
-﻿using FsgImg.Abstractions.Enums;
-using FsgImg.Abstractions;
+﻿using FsgImg.Abstractions;
+using FsgImg.Abstractions.Enums;
 using FsgImg.IO;
+using System;
 using System.Buffers;
 using Xunit;
-using System;
 
 namespace FsgImg.Tests.IO
 {

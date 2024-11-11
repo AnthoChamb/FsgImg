@@ -35,29 +35,42 @@ namespace FsgImg.Dds.IO
             var span = new Span<byte>(_buffer, _offset, _count);
             var start = 0;
 
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), ddsHeader.Size);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), (uint)ddsHeader.Flags);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), ddsHeader.Height);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), ddsHeader.Width);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), ddsHeader.PitchOrLinearSize);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), ddsHeader.Depth);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), ddsHeader.MipmapCount);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), ddsHeader.Size);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), (uint)ddsHeader.Flags);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), ddsHeader.Height);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), ddsHeader.Width);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), ddsHeader.PitchOrLinearSize);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), ddsHeader.Depth);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), ddsHeader.MipmapCount);
+            start += sizeof(uint);
 
             foreach (var reserved in ddsHeader.Reserved)
             {
-                BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), reserved);
+                BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), reserved);
+                start += sizeof(uint);
             }
 
-            using (var ddsPixelFormatWriter = _factory.Create(_buffer, start += DdsConstants.DdsPixelFormatSize, DdsConstants.DdsPixelFormatSize))
+            using (var ddsPixelFormatWriter = _factory.Create(_buffer, start, DdsConstants.DdsPixelFormatSize))
             {
                 ddsPixelFormatWriter.Write(ddsHeader.PixelFormat);
             }
+            start += DdsConstants.DdsPixelFormatSize;
 
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), (uint)ddsHeader.Caps);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), (uint)ddsHeader.Caps2);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), ddsHeader.Caps3);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), ddsHeader.Caps4);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), ddsHeader.Reserved2);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), (uint)ddsHeader.Caps);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), (uint)ddsHeader.Caps2);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), ddsHeader.Caps3);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), ddsHeader.Caps4);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), ddsHeader.Reserved2);
         }
 
         public Task WriteAsync(IDdsHeader ddsHeader)

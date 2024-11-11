@@ -35,20 +35,27 @@ namespace FsgImg.Dds.IO
             var start = 0;
 
             var ddsPixelFormat = new DdsPixelFormat();
-            var size = BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)));
+            var size = BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start, sizeof(uint)));
             if (size != DdsConstants.DdsPixelFormatSize)
             {
                 throw new InvalidDdsPixelFormatSizeException(size);
             }
             ddsPixelFormat.Size = size;
+            start += sizeof(uint);
 
-            ddsPixelFormat.Flags = (DdsPixelFormatFlags)BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)));
-            ddsPixelFormat.FourCc = (DdsFourCc)BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)));
-            ddsPixelFormat.RgbBitCount = BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)));
-            ddsPixelFormat.RBitMask = BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)));
-            ddsPixelFormat.GBitMask = BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)));
-            ddsPixelFormat.BBitMask = BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)));
-            ddsPixelFormat.ABitMask = BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)));
+            ddsPixelFormat.Flags = (DdsPixelFormatFlags)BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start, sizeof(uint)));
+            start += sizeof(uint);
+            ddsPixelFormat.FourCc = (DdsFourCc)BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start, sizeof(uint)));
+            start += sizeof(uint);
+            ddsPixelFormat.RgbBitCount = BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start, sizeof(uint)));
+            start += sizeof(uint);
+            ddsPixelFormat.RBitMask = BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start, sizeof(uint)));
+            start += sizeof(uint);
+            ddsPixelFormat.GBitMask = BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start, sizeof(uint)));
+            start += sizeof(uint);
+            ddsPixelFormat.BBitMask = BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start, sizeof(uint)));
+            start += sizeof(uint);
+            ddsPixelFormat.ABitMask = BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start, sizeof(uint)));
             return ddsPixelFormat;
         }
 

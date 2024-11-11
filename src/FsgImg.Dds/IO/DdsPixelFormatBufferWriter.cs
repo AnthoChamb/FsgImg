@@ -31,14 +31,21 @@ namespace FsgImg.Dds.IO
             var span = new Span<byte>(_buffer, _offset, _count);
             var start = 0;
 
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), ddsPixelFormat.Size);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), (uint)ddsPixelFormat.Flags);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), (uint)ddsPixelFormat.FourCc);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), ddsPixelFormat.RgbBitCount);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), ddsPixelFormat.RBitMask);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), ddsPixelFormat.GBitMask);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), ddsPixelFormat.BBitMask);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), ddsPixelFormat.ABitMask);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), ddsPixelFormat.Size);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), (uint)ddsPixelFormat.Flags);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), (uint)ddsPixelFormat.FourCc);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), ddsPixelFormat.RgbBitCount);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), ddsPixelFormat.RBitMask);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), ddsPixelFormat.GBitMask);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), ddsPixelFormat.BBitMask);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), ddsPixelFormat.ABitMask);
         }
 
         public Task WriteAsync(IDdsPixelFormat ddsPixelFormat)

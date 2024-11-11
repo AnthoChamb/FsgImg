@@ -33,11 +33,15 @@ namespace FsgImg.Dds.IO
             var start = 0;
 
             var ddsHeaderDxt10 = new DdsHeaderDxt10();
-            ddsHeaderDxt10.DxgiFormat = (DxgiFormat)BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)));
-            ddsHeaderDxt10.Dimension = (DdsDimension)BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)));
-            ddsHeaderDxt10.MiscFlags = (DdsMiscFlags)BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)));
-            ddsHeaderDxt10.ArraySize = BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)));
-            ddsHeaderDxt10.MiscFlags2 = (DdsMiscFlags2)BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)));
+            ddsHeaderDxt10.DxgiFormat = (DxgiFormat)BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start, sizeof(uint)));
+            start += sizeof(uint);
+            ddsHeaderDxt10.Dimension = (DdsDimension)BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start, sizeof(uint)));
+            start += sizeof(uint);
+            ddsHeaderDxt10.MiscFlags = (DdsMiscFlags)BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start, sizeof(uint)));
+            start += sizeof(uint);
+            ddsHeaderDxt10.ArraySize = BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start, sizeof(uint)));
+            start += sizeof(uint);
+            ddsHeaderDxt10.MiscFlags2 = (DdsMiscFlags2)BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start, sizeof(uint)));
             return ddsHeaderDxt10;
         }
 

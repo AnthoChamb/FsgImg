@@ -31,11 +31,15 @@ namespace FsgImg.Dds.IO
             var span = new Span<byte>(_buffer, _offset, _count);
             var start = 0;
 
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), (uint)ddsHeaderDxt10.DxgiFormat);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), (uint)ddsHeaderDxt10.Dimension);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), (uint)ddsHeaderDxt10.MiscFlags);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), ddsHeaderDxt10.ArraySize);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start += sizeof(uint), sizeof(uint)), (uint)ddsHeaderDxt10.MiscFlags2);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), (uint)ddsHeaderDxt10.DxgiFormat);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), (uint)ddsHeaderDxt10.Dimension);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), (uint)ddsHeaderDxt10.MiscFlags);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), ddsHeaderDxt10.ArraySize);
+            start += sizeof(uint);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), (uint)ddsHeaderDxt10.MiscFlags2);
         }
 
         public Task WriteAsync(IDdsHeaderDxt10 ddsHeaderDxt10)
