@@ -59,8 +59,8 @@ namespace FsgImg.Tests.IO
                     expected[18] = 0x03;
                     expected[19] = 0x00;
 
-                    Assert.True(new ReadOnlySpan<byte>(expected, 0, ImgConstants.ImgHeaderSize)
-                        .SequenceEqual(new ReadOnlySpan<byte>(actual, 0, ImgConstants.ImgHeaderSize)));
+                    Assert.Equal(new ReadOnlySpan<byte>(expected, 0, ImgConstants.ImgHeaderSize),
+                                 new ReadOnlySpan<byte>(actual, 0, ImgConstants.ImgHeaderSize));
                 }
                 finally
                 {
