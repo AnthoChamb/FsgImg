@@ -4,6 +4,7 @@ using FsgImg.Dds.Abstractions.Interfaces;
 using FsgImg.Dds.Abstractions.Interfaces.Factories;
 using FsgImg.Dds.Abstractions.Interfaces.IO;
 using FsgImg.Dds.Exceptions;
+using FsgImg.IO.Extensions;
 using System.Buffers.Binary;
 using System.IO;
 using System.Threading.Tasks;
@@ -48,13 +49,7 @@ namespace FsgImg.Dds.IO
         {
             // TODO: Use ArrayPool when available
             var buffer = new byte[sizeof(uint)];
-            // TODO: Use ReadExactly when available
-            var bytesRead = _stream.Read(buffer, 0, buffer.Length);
-
-            if (bytesRead != buffer.Length)
-            {
-                throw new EndOfStreamException();
-            }
+            _stream.ReadExactly(buffer, 0, sizeof(uint));
 
             var magic = BinaryPrimitives.ReadUInt32LittleEndian(buffer);
             if (magic != DdsConstants.DdsMagic)
@@ -85,13 +80,7 @@ namespace FsgImg.Dds.IO
         {
             // TODO: Use ArrayPool when available
             var buffer = new byte[sizeof(uint)];
-            // TODO: Use ReadExactlyAsync when available
-            var bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
-
-            if (bytesRead != buffer.Length)
-            {
-                throw new EndOfStreamException();
-            }
+            await _stream.ReadExactlyAsync(buffer, 0, sizeof(uint));
 
             var magic = BinaryPrimitives.ReadUInt32LittleEndian(buffer);
             if (magic != DdsConstants.DdsMagic)

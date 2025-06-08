@@ -2,6 +2,7 @@
 using FsgImg.Dds.Abstractions.Interfaces;
 using FsgImg.Dds.Abstractions.Interfaces.Factories;
 using FsgImg.Dds.Abstractions.Interfaces.IO;
+using FsgImg.IO.Extensions;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -42,13 +43,7 @@ namespace FsgImg.Dds.IO
         {
             // TODO: Use ArrayPool when available
             var buffer = new byte[DdsConstants.DdsHeaderSize];
-            // TODO: Use ReadExactly when available
-            var bytesRead = _stream.Read(buffer, 0, buffer.Length);
-
-            if (bytesRead != buffer.Length)
-            {
-                throw new EndOfStreamException();
-            }
+            _stream.ReadExactly(buffer, 0, DdsConstants.DdsHeaderSize);
 
             using (var reader = _factory.Create(buffer, 0, buffer.Length))
             {
@@ -60,13 +55,7 @@ namespace FsgImg.Dds.IO
         {
             // TODO: Use ArrayPool when available
             var buffer = new byte[DdsConstants.DdsHeaderSize];
-            // TODO: Use ReadExactlyAsync when available
-            var bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
-
-            if (bytesRead != buffer.Length)
-            {
-                throw new EndOfStreamException();
-            }
+            await _stream.ReadExactlyAsync(buffer, 0, DdsConstants.DdsHeaderSize);
 
             using (var reader = _factory.Create(buffer, 0, buffer.Length))
             {
