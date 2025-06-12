@@ -1,8 +1,10 @@
-﻿using FsgImg.Abstractions;
+﻿using CommunityToolkit.Diagnostics;
+using FsgImg.Abstractions;
 using FsgImg.Abstractions.Interfaces;
 using FsgImg.Abstractions.Interfaces.Factories;
 using FsgImg.Abstractions.Interfaces.IO;
 using FsgImg.IO.Extensions;
+using System.Buffers;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -11,7 +13,8 @@ namespace FsgImg.IO
     public class ImgHeaderStreamReader : IImgHeaderReader
     {
         private readonly Stream _stream;
-        private readonly IImgHeaderBufferReaderFactory _factory;
+        private readonly byte[] _buffer;
+        private readonly IImgHeaderReader _reader;
 
         private readonly bool _leaveOpen;
         private bool _disposed;
@@ -23,7 +26,8 @@ namespace FsgImg.IO
         public ImgHeaderStreamReader(Stream stream, IImgHeaderBufferReaderFactory factory, bool leaveOpen)
         {
             _stream = stream;
-            _factory = factory;
+            _buffer = ArrayPool<byte>.Shared.Rent(ImgConstants.ImgHeaderSize);
+            _reader = factory.Create(_buffer, 0, ImgConstants.ImgHeaderSize);
             _leaveOpen = leaveOpen;
         }
 
@@ -35,32 +39,34 @@ namespace FsgImg.IO
                 {
                     _stream.Dispose();
                 }
+                ArrayPool<byte>.Shared.Return(_buffer);
+                _reader.Dispose();
                 _disposed = true;
             }
         }
 
         public IImgHeader Read()
         {
-            // TODO: Use ArrayPool when available
-            var buffer = new byte[ImgConstants.ImgHeaderSize];
-            _stream.ReadExactly(buffer, 0, ImgConstants.ImgHeaderSize);
-
-            using (var reader = _factory.Create(buffer, 0, buffer.Length))
+            if (_disposed)
             {
-                return reader.Read();
+                ThrowHelper.ThrowObjectDisposedException(typeof(ImgHeaderStreamReader).FullName);
             }
+
+            _stream.ReadExactly(_buffer, 0, ImgConstants.ImgHeaderSize);
+
+            return _reader.Read();
         }
 
         public async Task<IImgHeader> ReadAsync()
         {
-            // TODO: Use ArrayPool when available
-            var buffer = new byte[ImgConstants.ImgHeaderSize];
-            await _stream.ReadExactlyAsync(buffer, 0, ImgConstants.ImgHeaderSize);
-
-            using (var reader = _factory.Create(buffer, 0, buffer.Length))
+            if (_disposed)
             {
-                return await reader.ReadAsync();
+                ThrowHelper.ThrowObjectDisposedException(typeof(ImgHeaderStreamReader).FullName);
             }
+
+            await _stream.ReadExactlyAsync(_buffer, 0, ImgConstants.ImgHeaderSize);
+
+            return await _reader.ReadAsync();
         }
     }
 }

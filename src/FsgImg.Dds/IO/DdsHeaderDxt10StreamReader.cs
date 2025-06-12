@@ -1,8 +1,10 @@
-﻿using FsgImg.Dds.Abstractions;
+﻿using CommunityToolkit.Diagnostics;
+using FsgImg.Dds.Abstractions;
 using FsgImg.Dds.Abstractions.Interfaces;
 using FsgImg.Dds.Abstractions.Interfaces.Factories;
 using FsgImg.Dds.Abstractions.Interfaces.IO;
 using FsgImg.IO.Extensions;
+using System.Buffers;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -11,7 +13,8 @@ namespace FsgImg.Dds.IO
     public class DdsHeaderDxt10StreamReader : IDdsHeaderDxt10Reader
     {
         private readonly Stream _stream;
-        private readonly IDdsHeaderDxt10BufferReaderFactory _factory;
+        private readonly byte[] _buffer;
+        private readonly IDdsHeaderDxt10Reader _reader;
 
         private readonly bool _leaveOpen;
         private bool _disposed;
@@ -23,7 +26,8 @@ namespace FsgImg.Dds.IO
         public DdsHeaderDxt10StreamReader(Stream stream, IDdsHeaderDxt10BufferReaderFactory factory, bool leaveOpen)
         {
             _stream = stream;
-            _factory = factory;
+            _buffer = ArrayPool<byte>.Shared.Rent(DdsConstants.DdsHeaderDxt10Size);
+            _reader = factory.Create(_buffer, 0, DdsConstants.DdsHeaderDxt10Size);
             _leaveOpen = leaveOpen;
         }
 
@@ -35,32 +39,34 @@ namespace FsgImg.Dds.IO
                 {
                     _stream.Dispose();
                 }
+                ArrayPool<byte>.Shared.Return(_buffer);
+                _reader.Dispose();
                 _disposed = true;
             }
         }
 
         public IDdsHeaderDxt10 Read()
         {
-            // TODO: Use ArrayPool when available
-            var buffer = new byte[DdsConstants.DdsHeaderDxt10Size];
-            _stream.ReadExactly(buffer, 0, DdsConstants.DdsHeaderDxt10Size);
-
-            using (var reader = _factory.Create(buffer, 0, buffer.Length))
+            if (_disposed)
             {
-                return reader.Read();
+                ThrowHelper.ThrowObjectDisposedException(typeof(DdsHeaderDxt10StreamReader).FullName);
             }
+
+            _stream.ReadExactly(_buffer, 0, DdsConstants.DdsHeaderDxt10Size);
+
+            return _reader.Read();
         }
 
         public async Task<IDdsHeaderDxt10> ReadAsync()
         {
-            // TODO: Use ArrayPool when available
-            var buffer = new byte[DdsConstants.DdsHeaderDxt10Size];
-            await _stream.ReadExactlyAsync(buffer, 0, DdsConstants.DdsHeaderDxt10Size);
-
-            using (var reader = _factory.Create(buffer, 0, buffer.Length))
+            if (_disposed)
             {
-                return await reader.ReadAsync();
+                ThrowHelper.ThrowObjectDisposedException(typeof(DdsHeaderDxt10StreamReader).FullName);
             }
+
+            await _stream.ReadExactlyAsync(_buffer, 0, DdsConstants.DdsHeaderDxt10Size);
+
+            return await _reader.ReadAsync();
         }
     }
 }

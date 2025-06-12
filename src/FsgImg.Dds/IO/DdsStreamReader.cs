@@ -5,6 +5,7 @@ using FsgImg.Dds.Abstractions.Interfaces.Factories;
 using FsgImg.Dds.Abstractions.Interfaces.IO;
 using FsgImg.Dds.Exceptions;
 using FsgImg.IO.Extensions;
+using System.Buffers;
 using System.Buffers.Binary;
 using System.IO;
 using System.Threading.Tasks;
@@ -47,11 +48,18 @@ namespace FsgImg.Dds.IO
 
         public IDds Read()
         {
-            // TODO: Use ArrayPool when available
-            var buffer = new byte[sizeof(uint)];
-            _stream.ReadExactly(buffer, 0, sizeof(uint));
+            uint magic;
+            var buffer = ArrayPool<byte>.Shared.Rent(sizeof(uint));
+            try
+            {
+                _stream.ReadExactly(buffer, 0, sizeof(uint));
+                magic = BinaryPrimitives.ReadUInt32LittleEndian(buffer);
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(buffer);
+            }
 
-            var magic = BinaryPrimitives.ReadUInt32LittleEndian(buffer);
             if (magic != DdsConstants.DdsMagic)
             {
                 throw new InvalidDdsMagicException(magic);
@@ -78,11 +86,18 @@ namespace FsgImg.Dds.IO
 
         public async Task<IDds> ReadAsync()
         {
-            // TODO: Use ArrayPool when available
-            var buffer = new byte[sizeof(uint)];
-            await _stream.ReadExactlyAsync(buffer, 0, sizeof(uint));
+            uint magic;
+            var buffer = ArrayPool<byte>.Shared.Rent(sizeof(uint));
+            try
+            {
+                await _stream.ReadExactlyAsync(buffer, 0, sizeof(uint));
+                magic = BinaryPrimitives.ReadUInt32LittleEndian(buffer);
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(buffer);
+            }
 
-            var magic = BinaryPrimitives.ReadUInt32LittleEndian(buffer);
             if (magic != DdsConstants.DdsMagic)
             {
                 throw new InvalidDdsMagicException(magic);
