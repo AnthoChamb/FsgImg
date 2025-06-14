@@ -1,5 +1,4 @@
-﻿using FsgImg.Dds.Abstractions;
-using FsgImg.Dds.Abstractions.Enums;
+﻿using FsgImg.Dds.Abstractions.Enums;
 using FsgImg.Dds.Abstractions.Interfaces;
 using FsgImg.Dds.Abstractions.Interfaces.Factories;
 using FsgImg.Dds.Abstractions.Interfaces.IO;
@@ -60,10 +59,7 @@ namespace FsgImg.Dds.IO
                 ArrayPool<byte>.Shared.Return(buffer);
             }
 
-            if (magic != DdsConstants.DdsMagic)
-            {
-                throw new InvalidDdsMagicException(magic);
-            }
+            InvalidDdsMagicException.ThrowIfInvalid(magic);
 
             var dds = new Dds();
             dds.Magic = magic;
@@ -98,10 +94,7 @@ namespace FsgImg.Dds.IO
                 ArrayPool<byte>.Shared.Return(buffer);
             }
 
-            if (magic != DdsConstants.DdsMagic)
-            {
-                throw new InvalidDdsMagicException(magic);
-            }
+            InvalidDdsMagicException.ThrowIfInvalid(magic);
 
             var dds = new Dds();
             dds.Magic = magic;

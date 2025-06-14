@@ -1,4 +1,5 @@
 ﻿using FsgImg.Abstractions.Exceptions;
+using FsgImg.Dds.Abstractions;
 
 namespace FsgImg.Dds.Exceptions
 {
@@ -17,6 +18,19 @@ namespace FsgImg.Dds.Exceptions
             {
                 // TODO: Return resource string
                 return string.Empty;
+            }
+        }
+
+        public static void Throw(uint magic)
+        {
+            throw new InvalidDdsMagicException(magic);
+        }
+
+        public static void ThrowIfInvalid(uint magic)
+        {
+            if (magic != DdsConstants.DdsMagic)
+            {
+                Throw(magic);
             }
         }
     }

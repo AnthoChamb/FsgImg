@@ -39,10 +39,7 @@ namespace FsgImg.Dds.IO
 
             var ddsHeader = new DdsHeader();
             var size = BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start, sizeof(uint)));
-            if (size != DdsConstants.DdsHeaderSize)
-            {
-                throw new InvalidDdsHeaderSizeException(size);
-            }
+            InvalidDdsHeaderSizeException.ThrowIfInvalid(size);
             ddsHeader.Size = size;
             start += sizeof(uint);
 

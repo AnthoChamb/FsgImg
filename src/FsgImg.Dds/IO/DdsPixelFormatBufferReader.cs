@@ -1,5 +1,4 @@
-﻿using FsgImg.Dds.Abstractions;
-using FsgImg.Dds.Abstractions.Enums;
+﻿using FsgImg.Dds.Abstractions.Enums;
 using FsgImg.Dds.Abstractions.Interfaces;
 using FsgImg.Dds.Abstractions.Interfaces.IO;
 using FsgImg.Dds.Exceptions;
@@ -36,10 +35,7 @@ namespace FsgImg.Dds.IO
 
             var ddsPixelFormat = new DdsPixelFormat();
             var size = BinaryPrimitives.ReadUInt32LittleEndian(span.Slice(start, sizeof(uint)));
-            if (size != DdsConstants.DdsPixelFormatSize)
-            {
-                throw new InvalidDdsPixelFormatSizeException(size);
-            }
+            InvalidDdsPixelFormatSizeException.ThrowIfInvalid(size);
             ddsPixelFormat.Size = size;
             start += sizeof(uint);
 
