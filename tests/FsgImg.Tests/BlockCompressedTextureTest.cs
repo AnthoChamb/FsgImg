@@ -24,7 +24,7 @@ namespace FsgImg.Tests
         public void IsUncompressed_IsFalse()
         {
             // Arrange
-            var texture = new BlockCompressedTexture(512, 2048, 7, 4, 4, 8);
+            var texture = new BlockCompressedTexture(512, 2048, 7, DdsConstants.DdsBlockWidth, DdsConstants.DdsBlockHeight, DdsConstants.DdsBc1BlockSize);
 
             // Act
             // Assert
