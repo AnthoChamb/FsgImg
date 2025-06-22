@@ -1,7 +1,9 @@
-﻿using FsgImg.Abstractions;
+﻿using CommunityToolkit.Diagnostics;
+using FsgImg.Abstractions;
 using FsgImg.Abstractions.Interfaces;
 using FsgImg.Abstractions.Interfaces.Factories;
 using FsgImg.Abstractions.Interfaces.IO;
+using System.Buffers;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -10,7 +12,8 @@ namespace FsgImg.IO
     public class ImgHeaderStreamWriter : IImgHeaderWriter
     {
         private readonly Stream _stream;
-        private readonly IImgHeaderBufferWriterFactory _factory;
+        private readonly byte[] _buffer;
+        private readonly IImgHeaderWriter _writer;
 
         private readonly bool _leaveOpen;
         private bool _disposed;
@@ -22,7 +25,8 @@ namespace FsgImg.IO
         public ImgHeaderStreamWriter(Stream stream, IImgHeaderBufferWriterFactory factory, bool leaveOpen)
         {
             _stream = stream;
-            _factory = factory;
+            _buffer = ArrayPool<byte>.Shared.Rent(ImgConstants.ImgHeaderSize);
+            _writer = factory.Create(_buffer, 0, ImgConstants.ImgHeaderSize);
             _leaveOpen = leaveOpen;
         }
 
@@ -34,34 +38,34 @@ namespace FsgImg.IO
                 {
                     _stream.Dispose();
                 }
+                ArrayPool<byte>.Shared.Return(_buffer);
+                _writer.Dispose();
                 _disposed = true;
             }
         }
 
         public void Write(IImgHeader imgHeader)
         {
-            // TODO: Use ArrayPool when available
-            var buffer = new byte[ImgConstants.ImgHeaderSize];
-
-            using (var writer = _factory.Create(buffer, 0, buffer.Length))
+            if (_disposed)
             {
-                writer.Write(imgHeader);
+                ThrowHelper.ThrowObjectDisposedException(typeof(ImgHeaderStreamWriter).FullName);
             }
 
-            _stream.Write(buffer, 0, buffer.Length);
+            _writer.Write(imgHeader);
+
+            _stream.Write(_buffer, 0, ImgConstants.ImgHeaderSize);
         }
 
         public async Task WriteAsync(IImgHeader imgHeader)
         {
-            // TODO: Use ArrayPool when available
-            var buffer = new byte[ImgConstants.ImgHeaderSize];
-
-            using (var writer = _factory.Create(buffer, 0, buffer.Length))
+            if (_disposed)
             {
-                await writer.WriteAsync(imgHeader);
+                ThrowHelper.ThrowObjectDisposedException(typeof(ImgHeaderStreamWriter).FullName);
             }
 
-            await _stream.WriteAsync(buffer, 0, buffer.Length);
+            await _writer.WriteAsync(imgHeader);
+
+            await _stream.WriteAsync(_buffer, 0, ImgConstants.ImgHeaderSize);
         }
     }
 }

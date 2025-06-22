@@ -1,6 +1,7 @@
 ﻿using FsgImg.Dds.Abstractions.Interfaces;
 using FsgImg.Dds.Abstractions.Interfaces.Factories;
 using FsgImg.Dds.Abstractions.Interfaces.IO;
+using System.Buffers;
 using System.Buffers.Binary;
 using System.IO;
 using System.Threading.Tasks;
@@ -43,12 +44,16 @@ namespace FsgImg.Dds.IO
 
         public void Write(IDds dds)
         {
-            // TODO: Use ArrayPool when available
-            var buffer = new byte[sizeof(uint)];
-
-            BinaryPrimitives.WriteUInt32LittleEndian(buffer, dds.Magic);
-
-            _stream.Write(buffer, 0, buffer.Length);
+            var buffer = ArrayPool<byte>.Shared.Rent(sizeof(uint));
+            try
+            {
+                BinaryPrimitives.WriteUInt32LittleEndian(buffer, dds.Magic);
+                _stream.Write(buffer, 0, sizeof(uint));
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(buffer);
+            }
 
             using (var headerWriter = _headerWriterFactory.Create(_stream, true))
             {
@@ -66,12 +71,16 @@ namespace FsgImg.Dds.IO
 
         public async Task WriteAsync(IDds dds)
         {
-            // TODO: Use ArrayPool when available
-            var buffer = new byte[sizeof(uint)];
-
-            BinaryPrimitives.WriteUInt32LittleEndian(buffer, dds.Magic);
-
-            await _stream.WriteAsync(buffer, 0, buffer.Length);
+            var buffer = ArrayPool<byte>.Shared.Rent(sizeof(uint));
+            try
+            {
+                BinaryPrimitives.WriteUInt32LittleEndian(buffer, dds.Magic);
+                await _stream.WriteAsync(buffer, 0, sizeof(uint));
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(buffer);
+            }
 
             using (var headerWriter = _headerWriterFactory.Create(_stream, true))
             {

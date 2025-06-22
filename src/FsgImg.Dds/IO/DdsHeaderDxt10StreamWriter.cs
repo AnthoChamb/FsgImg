@@ -1,7 +1,9 @@
-﻿using FsgImg.Dds.Abstractions;
+﻿using CommunityToolkit.Diagnostics;
+using FsgImg.Dds.Abstractions;
 using FsgImg.Dds.Abstractions.Interfaces;
 using FsgImg.Dds.Abstractions.Interfaces.Factories;
 using FsgImg.Dds.Abstractions.Interfaces.IO;
+using System.Buffers;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -10,7 +12,8 @@ namespace FsgImg.Dds.IO
     public class DdsHeaderDxt10StreamWriter : IDdsHeaderDxt10Writer
     {
         private readonly Stream _stream;
-        private readonly IDdsHeaderDxt10BufferWriterFactory _factory;
+        private readonly byte[] _buffer;
+        private readonly IDdsHeaderDxt10Writer _writer;
 
         private readonly bool _leaveOpen;
         private bool _disposed;
@@ -22,7 +25,8 @@ namespace FsgImg.Dds.IO
         public DdsHeaderDxt10StreamWriter(Stream stream, IDdsHeaderDxt10BufferWriterFactory factory, bool leaveOpen)
         {
             _stream = stream;
-            _factory = factory;
+            _buffer = ArrayPool<byte>.Shared.Rent(DdsConstants.DdsHeaderDxt10Size);
+            _writer = factory.Create(_buffer, 0, DdsConstants.DdsHeaderDxt10Size);
             _leaveOpen = leaveOpen;
         }
 
@@ -34,34 +38,34 @@ namespace FsgImg.Dds.IO
                 {
                     _stream.Dispose();
                 }
+                ArrayPool<byte>.Shared.Return(_buffer);
+                _writer.Dispose();
                 _disposed = true;
             }
         }
 
         public void Write(IDdsHeaderDxt10 ddsHeaderDxt10)
         {
-            // TODO: Use ArrayPool when available
-            var buffer = new byte[DdsConstants.DdsHeaderDxt10Size];
-
-            using (var writer = _factory.Create(buffer, 0, buffer.Length))
+            if (_disposed)
             {
-                writer.Write(ddsHeaderDxt10);
+                ThrowHelper.ThrowObjectDisposedException(typeof(DdsHeaderDxt10StreamWriter).FullName);
             }
 
-            _stream.Write(buffer, 0, buffer.Length);
+            _writer.Write(ddsHeaderDxt10);
+
+            _stream.Write(_buffer, 0, DdsConstants.DdsHeaderDxt10Size);
         }
 
         public async Task WriteAsync(IDdsHeaderDxt10 ddsHeaderDxt10)
         {
-            // TODO: Use ArrayPool when available
-            var buffer = new byte[DdsConstants.DdsHeaderDxt10Size];
-
-            using (var writer = _factory.Create(buffer, 0, buffer.Length))
+            if (_disposed)
             {
-                await writer.WriteAsync(ddsHeaderDxt10);
+                ThrowHelper.ThrowObjectDisposedException(typeof(DdsHeaderDxt10StreamWriter).FullName);
             }
 
-            await _stream.WriteAsync(buffer, 0, buffer.Length);
+            await _writer.WriteAsync(ddsHeaderDxt10);
+
+            await _stream.WriteAsync(_buffer, 0, DdsConstants.DdsHeaderDxt10Size);
         }
     }
 }
