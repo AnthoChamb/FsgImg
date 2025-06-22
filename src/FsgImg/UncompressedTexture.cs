@@ -1,8 +1,6 @@
-﻿using FsgImg.Abstractions.Interfaces;
-
-namespace FsgImg
+﻿namespace FsgImg
 {
-    public class UncompressedTexture : Texture, IUncompressedTexture
+    public class UncompressedTexture : Texture
     {
         public UncompressedTexture(uint width, uint height, uint mipmapCount, uint bitsPerPixel)
             : base(width, height, mipmapCount)
@@ -10,7 +8,7 @@ namespace FsgImg
             BitsPerPixel = bitsPerPixel;
         }
 
-        public uint BitsPerPixel { get; }
+        public override uint BitsPerPixel { get; }
 
         public override bool IsUncompressed { get; } = true;
 

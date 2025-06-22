@@ -3,11 +3,11 @@ using FsgImg.Dds.Abstractions.Interfaces;
 
 namespace FsgImg.Dds
 {
-    public class UncompressedDdsTexture : IDdsTexture, IUncompressedTexture
+    public class DdsTexture : IDdsTexture
     {
-        private readonly IUncompressedTexture _texture;
+        private readonly ITexture _texture;
 
-        public UncompressedDdsTexture(IUncompressedTexture texture)
+        public DdsTexture(ITexture texture)
         {
             _texture = texture;
         }
@@ -17,14 +17,6 @@ namespace FsgImg.Dds
             get
             {
                 return (Width * BitsPerPixel + 7) / 8;
-            }
-        }
-
-        public uint BitsPerPixel
-        {
-            get
-            {
-                return _texture.BitsPerPixel;
             }
         }
 
@@ -49,6 +41,14 @@ namespace FsgImg.Dds
             get
             {
                 return _texture.MipmapCount;
+            }
+        }
+
+        public uint BitsPerPixel
+        {
+            get
+            {
+                return _texture.BitsPerPixel;
             }
         }
 

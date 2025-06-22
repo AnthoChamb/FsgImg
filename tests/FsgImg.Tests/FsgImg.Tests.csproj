@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\FsgImg\FsgImg.csproj" />
+    <ProjectReference Include="..\..\src\FsgImg.Dds\FsgImg.Dds.csproj" />
   </ItemGroup>
 
 </Project>

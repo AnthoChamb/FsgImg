@@ -22,6 +22,14 @@ namespace FsgImg
         public uint BlockHeight { get; }
         public uint BlockSize { get; }
 
+        public override uint BitsPerPixel
+        {
+            get
+            {
+                return BlockSize * 8 / BlockWidth / BlockHeight;
+            }
+        }
+
         public override bool IsUncompressed { get; } = false;
 
         protected override uint GetMipmapSize(uint width, uint height)

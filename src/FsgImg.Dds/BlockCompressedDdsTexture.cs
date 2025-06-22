@@ -69,6 +69,14 @@ namespace FsgImg.Dds
             }
         }
 
+        public uint BitsPerPixel
+        {
+            get
+            {
+                return _texture.BitsPerPixel;
+            }
+        }
+
         public uint Size
         {
             get

@@ -14,6 +14,7 @@ namespace FsgImg
         public uint Width { get; }
         public uint Height { get; }
         public uint MipmapCount { get; }
+        public abstract uint BitsPerPixel { get; }
 
         public uint Size
         {
