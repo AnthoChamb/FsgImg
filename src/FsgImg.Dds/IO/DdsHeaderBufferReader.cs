@@ -6,6 +6,7 @@ using FsgImg.Dds.Abstractions.Interfaces.IO;
 using FsgImg.Dds.Exceptions;
 using System;
 using System.Buffers.Binary;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FsgImg.Dds.IO
@@ -81,7 +82,7 @@ namespace FsgImg.Dds.IO
             return ddsHeader;
         }
 
-        public Task<IDdsHeader> ReadAsync()
+        public Task<IDdsHeader> ReadAsync(CancellationToken cancellationToken = default)
         {
             return Task.FromResult(Read());
         }

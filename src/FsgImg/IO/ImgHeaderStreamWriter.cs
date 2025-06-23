@@ -5,6 +5,7 @@ using FsgImg.Abstractions.Interfaces.Factories;
 using FsgImg.Abstractions.Interfaces.IO;
 using System.Buffers;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FsgImg.IO
@@ -56,16 +57,16 @@ namespace FsgImg.IO
             _stream.Write(_buffer, 0, ImgConstants.ImgHeaderSize);
         }
 
-        public async Task WriteAsync(IImgHeader imgHeader)
+        public async Task WriteAsync(IImgHeader imgHeader, CancellationToken cancellationToken = default)
         {
             if (_disposed)
             {
                 ThrowHelper.ThrowObjectDisposedException(typeof(ImgHeaderStreamWriter).FullName);
             }
 
-            await _writer.WriteAsync(imgHeader);
+            await _writer.WriteAsync(imgHeader, cancellationToken);
 
-            await _stream.WriteAsync(_buffer, 0, ImgConstants.ImgHeaderSize);
+            await _stream.WriteAsync(_buffer, 0, ImgConstants.ImgHeaderSize, cancellationToken);
         }
     }
 }

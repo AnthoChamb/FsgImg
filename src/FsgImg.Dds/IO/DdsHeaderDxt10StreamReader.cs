@@ -6,6 +6,7 @@ using FsgImg.Dds.Abstractions.Interfaces.IO;
 using FsgImg.IO.Extensions;
 using System.Buffers;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FsgImg.Dds.IO
@@ -57,16 +58,16 @@ namespace FsgImg.Dds.IO
             return _reader.Read();
         }
 
-        public async Task<IDdsHeaderDxt10> ReadAsync()
+        public async Task<IDdsHeaderDxt10> ReadAsync(CancellationToken cancellationToken = default)
         {
             if (_disposed)
             {
                 ThrowHelper.ThrowObjectDisposedException(typeof(DdsHeaderDxt10StreamReader).FullName);
             }
 
-            await _stream.ReadExactlyAsync(_buffer, 0, DdsConstants.DdsHeaderDxt10Size);
+            await _stream.ReadExactlyAsync(_buffer, 0, DdsConstants.DdsHeaderDxt10Size, cancellationToken);
 
-            return await _reader.ReadAsync();
+            return await _reader.ReadAsync(cancellationToken);
         }
     }
 }

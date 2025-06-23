@@ -4,6 +4,7 @@ using FsgImg.Dds.Abstractions.Interfaces.IO;
 using System.Buffers;
 using System.Buffers.Binary;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FsgImg.Dds.IO
@@ -69,13 +70,13 @@ namespace FsgImg.Dds.IO
             }
         }
 
-        public async Task WriteAsync(IDds dds)
+        public async Task WriteAsync(IDds dds, CancellationToken cancellationToken = default)
         {
             var buffer = ArrayPool<byte>.Shared.Rent(sizeof(uint));
             try
             {
                 BinaryPrimitives.WriteUInt32LittleEndian(buffer, dds.Magic);
-                await _stream.WriteAsync(buffer, 0, sizeof(uint));
+                await _stream.WriteAsync(buffer, 0, sizeof(uint), cancellationToken);
             }
             finally
             {
@@ -84,14 +85,14 @@ namespace FsgImg.Dds.IO
 
             using (var headerWriter = _headerWriterFactory.Create(_stream, true))
             {
-                await headerWriter.WriteAsync(dds.Header);
+                await headerWriter.WriteAsync(dds.Header, cancellationToken);
             }
 
             if (dds.HeaderDxt10 != null)
             {
                 using (var headerDxt10Writer = _headerDxt10WriterFactory.Create(_stream, true))
                 {
-                    await headerDxt10Writer.WriteAsync(dds.HeaderDxt10);
+                    await headerDxt10Writer.WriteAsync(dds.HeaderDxt10, cancellationToken);
                 }
             }
         }

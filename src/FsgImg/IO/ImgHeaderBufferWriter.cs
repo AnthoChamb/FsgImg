@@ -3,6 +3,7 @@ using FsgImg.Abstractions.Interfaces;
 using FsgImg.Abstractions.Interfaces.IO;
 using System;
 using System.Buffers.Binary;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FsgImg.IO
@@ -51,7 +52,7 @@ namespace FsgImg.IO
             BinaryPrimitives.WriteUInt16BigEndian(span.Slice(ImgConstants.PlatformOffset, sizeof(ushort)), (ushort)imgHeader.Platform);
         }
 
-        public Task WriteAsync(IImgHeader imgHeader)
+        public Task WriteAsync(IImgHeader imgHeader, CancellationToken cancellationToken = default)
         {
             Write(imgHeader);
             return Task.CompletedTask;

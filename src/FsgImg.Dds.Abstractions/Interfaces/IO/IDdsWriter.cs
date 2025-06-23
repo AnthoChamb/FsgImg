@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FsgImg.Dds.Abstractions.Interfaces.IO
@@ -6,6 +7,6 @@ namespace FsgImg.Dds.Abstractions.Interfaces.IO
     public interface IDdsWriter : IDisposable
     {
         void Write(IDds dds);
-        Task WriteAsync(IDds dds);
+        Task WriteAsync(IDds dds, CancellationToken cancellationToken = default);
     }
 }

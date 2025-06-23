@@ -6,6 +6,7 @@ using FsgImg.Abstractions.Interfaces.IO;
 using FsgImg.IO.Extensions;
 using System.Buffers;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FsgImg.IO
@@ -57,16 +58,16 @@ namespace FsgImg.IO
             return _reader.Read();
         }
 
-        public async Task<IImgHeader> ReadAsync()
+        public async Task<IImgHeader> ReadAsync(CancellationToken cancellationToken = default)
         {
             if (_disposed)
             {
                 ThrowHelper.ThrowObjectDisposedException(typeof(ImgHeaderStreamReader).FullName);
             }
 
-            await _stream.ReadExactlyAsync(_buffer, 0, ImgConstants.ImgHeaderSize);
+            await _stream.ReadExactlyAsync(_buffer, 0, ImgConstants.ImgHeaderSize, cancellationToken);
 
-            return await _reader.ReadAsync();
+            return await _reader.ReadAsync(cancellationToken);
         }
     }
 }

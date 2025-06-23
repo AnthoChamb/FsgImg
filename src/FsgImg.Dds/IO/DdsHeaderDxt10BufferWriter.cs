@@ -2,6 +2,7 @@
 using FsgImg.Dds.Abstractions.Interfaces.IO;
 using System;
 using System.Buffers.Binary;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FsgImg.Dds.IO
@@ -42,7 +43,7 @@ namespace FsgImg.Dds.IO
             BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(start, sizeof(uint)), (uint)ddsHeaderDxt10.MiscFlags2);
         }
 
-        public Task WriteAsync(IDdsHeaderDxt10 ddsHeaderDxt10)
+        public Task WriteAsync(IDdsHeaderDxt10 ddsHeaderDxt10, CancellationToken cancellationToken = default)
         {
             Write(ddsHeaderDxt10);
             return Task.CompletedTask;

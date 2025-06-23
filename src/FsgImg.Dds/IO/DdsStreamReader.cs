@@ -7,6 +7,7 @@ using FsgImg.IO.Extensions;
 using System.Buffers;
 using System.Buffers.Binary;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FsgImg.Dds.IO
@@ -80,13 +81,13 @@ namespace FsgImg.Dds.IO
             return dds;
         }
 
-        public async Task<IDds> ReadAsync()
+        public async Task<IDds> ReadAsync(CancellationToken cancellationToken = default)
         {
             uint magic;
             var buffer = ArrayPool<byte>.Shared.Rent(sizeof(uint));
             try
             {
-                await _stream.ReadExactlyAsync(buffer, 0, sizeof(uint));
+                await _stream.ReadExactlyAsync(buffer, 0, sizeof(uint), cancellationToken);
                 magic = BinaryPrimitives.ReadUInt32LittleEndian(buffer);
             }
             finally
@@ -101,14 +102,14 @@ namespace FsgImg.Dds.IO
 
             using (var headerReader = _headerReaderFactory.Create(_stream, true))
             {
-                dds.Header = await headerReader.ReadAsync();
+                dds.Header = await headerReader.ReadAsync(cancellationToken);
             }
 
             if (dds.Header.PixelFormat.FourCc == DdsFourCc.Dx10)
             {
                 using (var headerDxt10Reader = _headerDxt10ReaderFactory.Create(_stream, true))
                 {
-                    dds.HeaderDxt10 = await headerDxt10Reader.ReadAsync();
+                    dds.HeaderDxt10 = await headerDxt10Reader.ReadAsync(cancellationToken);
                 }
             }
 

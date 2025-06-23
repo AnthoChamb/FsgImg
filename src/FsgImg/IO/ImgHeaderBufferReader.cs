@@ -4,6 +4,7 @@ using FsgImg.Abstractions.Interfaces;
 using FsgImg.Abstractions.Interfaces.IO;
 using System;
 using System.Buffers.Binary;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FsgImg.IO
@@ -56,7 +57,7 @@ namespace FsgImg.IO
             return imgHeader;
         }
 
-        public Task<IImgHeader> ReadAsync()
+        public Task<IImgHeader> ReadAsync(CancellationToken cancellationToken = default)
         {
             return Task.FromResult(Read());
         }

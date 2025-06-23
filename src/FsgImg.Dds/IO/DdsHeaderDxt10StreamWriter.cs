@@ -5,6 +5,7 @@ using FsgImg.Dds.Abstractions.Interfaces.Factories;
 using FsgImg.Dds.Abstractions.Interfaces.IO;
 using System.Buffers;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FsgImg.Dds.IO
@@ -56,16 +57,16 @@ namespace FsgImg.Dds.IO
             _stream.Write(_buffer, 0, DdsConstants.DdsHeaderDxt10Size);
         }
 
-        public async Task WriteAsync(IDdsHeaderDxt10 ddsHeaderDxt10)
+        public async Task WriteAsync(IDdsHeaderDxt10 ddsHeaderDxt10, CancellationToken cancellationToken = default)
         {
             if (_disposed)
             {
                 ThrowHelper.ThrowObjectDisposedException(typeof(DdsHeaderDxt10StreamWriter).FullName);
             }
 
-            await _writer.WriteAsync(ddsHeaderDxt10);
+            await _writer.WriteAsync(ddsHeaderDxt10, cancellationToken);
 
-            await _stream.WriteAsync(_buffer, 0, DdsConstants.DdsHeaderDxt10Size);
+            await _stream.WriteAsync(_buffer, 0, DdsConstants.DdsHeaderDxt10Size, cancellationToken);
         }
     }
 }

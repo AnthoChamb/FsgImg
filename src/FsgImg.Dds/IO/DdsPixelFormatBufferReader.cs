@@ -4,6 +4,7 @@ using FsgImg.Dds.Abstractions.Interfaces.IO;
 using FsgImg.Dds.Exceptions;
 using System;
 using System.Buffers.Binary;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FsgImg.Dds.IO
@@ -55,7 +56,7 @@ namespace FsgImg.Dds.IO
             return ddsPixelFormat;
         }
 
-        public Task<IDdsPixelFormat> ReadAsync()
+        public Task<IDdsPixelFormat> ReadAsync(CancellationToken cancellationToken = default)
         {
             return Task.FromResult(Read());
         }
