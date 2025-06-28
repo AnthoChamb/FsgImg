@@ -20,5 +20,15 @@ namespace FsgImg.Dds.Exceptions
                 return string.Empty;
             }
         }
+
+        public static void Throw(DdsFourCc fourCc)
+        {
+            throw new InvalidDdsPixelFormatFourCcException(fourCc);
+        }
+
+        public static T Throw<T>(DdsFourCc fourCc)
+        {
+            throw new InvalidDdsPixelFormatFourCcException(fourCc);
+        }
     }
 }

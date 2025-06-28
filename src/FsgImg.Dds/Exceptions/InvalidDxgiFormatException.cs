@@ -20,5 +20,15 @@ namespace FsgImg.Dds.Exceptions
                 return string.Empty;
             }
         }
+
+        public static void Throw(DxgiFormat dxgiFormat)
+        {
+            throw new InvalidDxgiFormatException(dxgiFormat);
+        }
+
+        public static T Throw<T>(DxgiFormat dxgiFormat)
+        {
+            throw new InvalidDxgiFormatException(dxgiFormat);
+        }
     }
 }
