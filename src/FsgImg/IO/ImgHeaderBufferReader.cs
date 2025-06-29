@@ -1,6 +1,7 @@
 ﻿using FsgImg.Abstractions;
 using FsgImg.Abstractions.Enums;
 using FsgImg.Abstractions.Interfaces;
+using FsgImg.Abstractions.Interfaces.Factories;
 using FsgImg.Abstractions.Interfaces.IO;
 using System;
 using System.Buffers.Binary;
@@ -11,15 +12,17 @@ namespace FsgImg.IO
 {
     public class ImgHeaderBufferReader : IImgHeaderReader
     {
+        private readonly IImgHeaderFactory _factory;
         private readonly byte[] _buffer;
         private readonly int _offset, _count;
 
-        public ImgHeaderBufferReader(byte[] buffer) : this(buffer, 0, buffer.Length)
+        public ImgHeaderBufferReader(IImgHeaderFactory factory, byte[] buffer) : this(factory, buffer, 0, buffer.Length)
         {
         }
 
-        public ImgHeaderBufferReader(byte[] buffer, int offset, int count)
+        public ImgHeaderBufferReader(IImgHeaderFactory factory, byte[] buffer, int offset, int count)
         {
+            _factory = factory;
             _buffer = buffer;
             _offset = offset;
             _count = count;
@@ -33,18 +36,17 @@ namespace FsgImg.IO
         {
             var span = new ReadOnlySpan<byte>(_buffer, _offset, _count);
 
-            var imgHeader = new ImgHeader();
-            imgHeader.Platform = (ImgPlatform)BinaryPrimitives.ReadUInt16BigEndian(span.Slice(ImgConstants.PlatformOffset, sizeof(ushort)));
+            var platform = (ImgPlatform)BinaryPrimitives.ReadUInt16BigEndian(span.Slice(ImgConstants.PlatformOffset, sizeof(ushort)));
 
-            var options = new ImgHeaderOptions(imgHeader);
+            var options = new ImgHeaderOptions(platform);
 
-            imgHeader.Width = EndianBinaryPrimitives.ReadUInt16(span.Slice(ImgConstants.WidthOffset, sizeof(ushort)), options.IsLittleEndian);
-            imgHeader.Height = EndianBinaryPrimitives.ReadUInt16(span.Slice(ImgConstants.HeightOffset, sizeof(ushort)), options.IsLittleEndian);
-            imgHeader.Depth = EndianBinaryPrimitives.ReadUInt16(span.Slice(ImgConstants.DepthOffset, sizeof(ushort)), options.IsLittleEndian);
-            imgHeader.Pitch = EndianBinaryPrimitives.ReadUInt16(span.Slice(ImgConstants.PitchOffset, sizeof(ushort)), options.IsLittleEndian);
-            imgHeader.TextureFormat = (ImgTextureFormat)EndianBinaryPrimitives.ReadUInt32(span.Slice(ImgConstants.TextureFormatOffset, sizeof(uint)), options.IsLittleEndian);
-            imgHeader.BcAlpha = EndianBinaryPrimitives.ReadUInt16(span.Slice(ImgConstants.BcAlphaOffset, sizeof(ushort)), options.IsLittleEndian);
-            imgHeader.Game = (ImgGame)BinaryPrimitives.ReadUInt16BigEndian(span.Slice(ImgConstants.GameOffset, sizeof(ushort)));
+            var width = EndianBinaryPrimitives.ReadUInt16(span.Slice(ImgConstants.WidthOffset, sizeof(ushort)), options.IsLittleEndian);
+            var height = EndianBinaryPrimitives.ReadUInt16(span.Slice(ImgConstants.HeightOffset, sizeof(ushort)), options.IsLittleEndian);
+            var depth = EndianBinaryPrimitives.ReadUInt16(span.Slice(ImgConstants.DepthOffset, sizeof(ushort)), options.IsLittleEndian);
+            var pitch = EndianBinaryPrimitives.ReadUInt16(span.Slice(ImgConstants.PitchOffset, sizeof(ushort)), options.IsLittleEndian);
+            var textureFormat = (ImgTextureFormat)EndianBinaryPrimitives.ReadUInt32(span.Slice(ImgConstants.TextureFormatOffset, sizeof(uint)), options.IsLittleEndian);
+            var bcAlpha = EndianBinaryPrimitives.ReadUInt16(span.Slice(ImgConstants.BcAlphaOffset, sizeof(ushort)), options.IsLittleEndian);
+            var game = (ImgGame)BinaryPrimitives.ReadUInt16BigEndian(span.Slice(ImgConstants.GameOffset, sizeof(ushort)));
 
             var mipmapCount = EndianBinaryPrimitives.ReadUInt16(span.Slice(ImgConstants.MipmapCountOffset, sizeof(ushort)), options.IsLittleEndian);
             if (!options.IncludesBaseLevelMipmap)
@@ -52,9 +54,8 @@ namespace FsgImg.IO
                 // Add base level mipmap
                 mipmapCount += 1;
             }
-            imgHeader.MipmapCount = mipmapCount;
 
-            return imgHeader;
+            return _factory.Create(width, height, depth, pitch, textureFormat, bcAlpha, game, mipmapCount, platform);
         }
 
         public Task<IImgHeader> ReadAsync(CancellationToken cancellationToken = default)

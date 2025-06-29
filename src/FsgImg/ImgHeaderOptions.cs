@@ -1,13 +1,12 @@
 ﻿using FsgImg.Abstractions.Enums;
-using FsgImg.Abstractions.Interfaces;
 
 namespace FsgImg
 {
     public class ImgHeaderOptions
     {
-        public ImgHeaderOptions(IImgHeader imgHeader)
+        public ImgHeaderOptions(ImgPlatform platform)
         {
-            switch (imgHeader.Platform)
+            switch (platform)
             {
                 case ImgPlatform.Pc:
                 case ImgPlatform.XboxOne:

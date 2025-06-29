@@ -31,7 +31,7 @@ namespace FsgImg.IO
         public void Write(IImgHeader imgHeader)
         {
             var span = new Span<byte>(_buffer, _offset, _count);
-            var options = new ImgHeaderOptions(imgHeader);
+            var options = new ImgHeaderOptions(imgHeader.Platform);
 
             EndianBinaryPrimitives.WriteUInt16(span.Slice(ImgConstants.WidthOffset, sizeof(ushort)), imgHeader.Width, options.IsLittleEndian);
             EndianBinaryPrimitives.WriteUInt16(span.Slice(ImgConstants.HeightOffset, sizeof(ushort)), imgHeader.Height, options.IsLittleEndian);

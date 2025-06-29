@@ -13,7 +13,7 @@ namespace FsgImg.Tests.IO
     public class ImgHeaderStreamReaderTest
     {
         protected virtual IImgHeaderStreamReaderFactory Factory { get; } =
-            new ImgHeaderStreamReaderFactory(new ImgHeaderBufferReaderFactory());
+            new ImgHeaderStreamReaderFactory(new ImgHeaderBufferReaderFactory(new ImgHeaderFactory()));
 
         [Fact]
         public void Read_Xbox360Bc1_ReturnsImgHeader()
