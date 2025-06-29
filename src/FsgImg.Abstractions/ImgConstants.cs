@@ -12,5 +12,6 @@
         public const int GameOffset = 14;
         public const int MipmapCountOffset = 16;
         public const int PlatformOffset = 18;
+        public const uint Rgba8BitsPerPixel = 32;
     }
 }

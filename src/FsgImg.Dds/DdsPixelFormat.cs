@@ -7,7 +7,7 @@ namespace FsgImg.Dds
     public class DdsPixelFormat : IDdsPixelFormat
     {
         public uint Size { get; set; } = DdsConstants.DdsPixelFormatSize;
-        public DdsPixelFormatFlags Flags { get; set; }
+        public DdsPixelFormatFlags Flags { get; set; } = DdsPixelFormatFlags.FourCc;
         public DdsFourCc FourCc { get; set; }
         public uint RgbBitCount { get; set; }
         public uint RBitMask { get; set; }
