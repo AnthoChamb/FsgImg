@@ -13,6 +13,11 @@ namespace FsgImg.Dds.Converters
     {
         private readonly IImgHeaderFactory _factory;
 
+        public DdsToImgHeaderConverter(IImgHeaderFactory factory)
+        {
+            _factory = factory;
+        }
+
         public IImgHeader ConvertFrom(IDds dds, ConvertFromOptions options)
         {
             var ddsHeader = dds.Header;

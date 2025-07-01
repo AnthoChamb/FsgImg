@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <PublishAot>true</PublishAot>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta5.25306.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FsgImg.Dds\FsgImg.Dds.csproj" />
+    <ProjectReference Include="..\FsgImg\FsgImg.csproj" />
+  </ItemGroup>
+
+</Project>

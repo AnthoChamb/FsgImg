@@ -2,6 +2,7 @@
 {
     public class DdsConstants
     {
+        public const string DdsExtension = ".dds";
         public const uint DdsMagic = 0x20_53_44_44u;
         public const int DdsHeaderSize = 124;
         public const int DdsPixelFormatSize = 32;

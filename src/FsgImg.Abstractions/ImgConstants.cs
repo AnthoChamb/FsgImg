@@ -2,6 +2,7 @@
 {
     public class ImgConstants
     {
+        public const string ImgExtension = ".img";
         public const int ImgHeaderSize = 20;
         public const int WidthOffset = 0;
         public const int HeightOffset = 2;
