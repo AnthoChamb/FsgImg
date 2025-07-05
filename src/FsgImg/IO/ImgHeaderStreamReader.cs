@@ -20,11 +20,11 @@ namespace FsgImg.IO
         private readonly bool _leaveOpen;
         private bool _disposed;
 
-        public ImgHeaderStreamReader(Stream stream, IImgHeaderBufferReaderFactory factory) : this(stream, factory, false)
+        public ImgHeaderStreamReader(Stream stream, IImgHeaderByteArrayReaderFactory factory) : this(stream, factory, false)
         {
         }
 
-        public ImgHeaderStreamReader(Stream stream, IImgHeaderBufferReaderFactory factory, bool leaveOpen)
+        public ImgHeaderStreamReader(Stream stream, IImgHeaderByteArrayReaderFactory factory, bool leaveOpen)
         {
             _stream = stream;
             _buffer = ArrayPool<byte>.Shared.Rent(ImgConstants.ImgHeaderSize);

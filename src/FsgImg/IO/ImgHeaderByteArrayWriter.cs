@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace FsgImg.IO
 {
-    public class ImgHeaderBufferWriter : IImgHeaderWriter
+    public class ImgHeaderByteArrayWriter : IImgHeaderWriter
     {
         private readonly byte[] _buffer;
         private readonly int _offset, _count;
 
-        public ImgHeaderBufferWriter(byte[] buffer) : this(buffer, 0, buffer.Length)
+        public ImgHeaderByteArrayWriter(byte[] buffer) : this(buffer, 0, buffer.Length)
         {
         }
 
-        public ImgHeaderBufferWriter(byte[] buffer, int offset, int count)
+        public ImgHeaderByteArrayWriter(byte[] buffer, int offset, int count)
         {
             _buffer = buffer;
             _offset = offset;

@@ -9,9 +9,9 @@ using Xunit;
 
 namespace FsgImg.Tests.IO
 {
-    public class ImgHeaderBufferWriterTest
+    public class ImgHeaderByteArrayWriterTest
     {
-        protected virtual IImgHeaderBufferWriterFactory Factory { get; } = new ImgHeaderBufferWriterFactory();
+        protected virtual IImgHeaderByteArrayWriterFactory Factory { get; } = new ImgHeaderByteArrayWriterFactory();
 
         [Fact]
         public void Write_Xbox360Bc1_WritesImgHeaderToBuffer()

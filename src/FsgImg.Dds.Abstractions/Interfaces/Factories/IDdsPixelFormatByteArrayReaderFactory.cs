@@ -2,7 +2,7 @@
 
 namespace FsgImg.Dds.Abstractions.Interfaces.Factories
 {
-    public interface IDdsPixelFormatBufferReaderFactory
+    public interface IDdsPixelFormatByteArrayReaderFactory
     {
         IDdsPixelFormatReader Create(byte[] buffer, int offset, int count);
     }

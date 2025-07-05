@@ -4,11 +4,11 @@ using FsgImg.IO;
 
 namespace FsgImg.Factories
 {
-    public class ImgHeaderBufferWriterFactory : IImgHeaderBufferWriterFactory
+    public class ImgHeaderByteArrayWriterFactory : IImgHeaderByteArrayWriterFactory
     {
         public IImgHeaderWriter Create(byte[] buffer, int offset, int count)
         {
-            return new ImgHeaderBufferWriter(buffer, offset, count);
+            return new ImgHeaderByteArrayWriter(buffer, offset, count);
         }
     }
 }

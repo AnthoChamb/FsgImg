@@ -20,11 +20,11 @@ namespace FsgImg.Dds.IO
         private readonly bool _leaveOpen;
         private bool _disposed;
 
-        public DdsHeaderDxt10StreamReader(Stream stream, IDdsHeaderDxt10BufferReaderFactory factory) : this(stream, factory, false)
+        public DdsHeaderDxt10StreamReader(Stream stream, IDdsHeaderDxt10ByteArrayReaderFactory factory) : this(stream, factory, false)
         {
         }
 
-        public DdsHeaderDxt10StreamReader(Stream stream, IDdsHeaderDxt10BufferReaderFactory factory, bool leaveOpen)
+        public DdsHeaderDxt10StreamReader(Stream stream, IDdsHeaderDxt10ByteArrayReaderFactory factory, bool leaveOpen)
         {
             _stream = stream;
             _buffer = ArrayPool<byte>.Shared.Rent(DdsConstants.DdsHeaderDxt10Size);

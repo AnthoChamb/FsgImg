@@ -7,9 +7,9 @@ namespace FsgImg.Factories
 {
     public class ImgHeaderStreamReaderFactory : IImgHeaderStreamReaderFactory
     {
-        private readonly IImgHeaderBufferReaderFactory _factory;
+        private readonly IImgHeaderByteArrayReaderFactory _factory;
 
-        public ImgHeaderStreamReaderFactory(IImgHeaderBufferReaderFactory factory)
+        public ImgHeaderStreamReaderFactory(IImgHeaderByteArrayReaderFactory factory)
         {
             _factory = factory;
         }

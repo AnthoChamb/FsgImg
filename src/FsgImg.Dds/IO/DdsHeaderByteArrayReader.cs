@@ -11,17 +11,17 @@ using System.Threading.Tasks;
 
 namespace FsgImg.Dds.IO
 {
-    public class DdsHeaderBufferReader : IDdsHeaderReader
+    public class DdsHeaderByteArrayReader : IDdsHeaderReader
     {
         private readonly byte[] _buffer;
-        private readonly IDdsPixelFormatBufferReaderFactory _factory;
+        private readonly IDdsPixelFormatByteArrayReaderFactory _factory;
         private readonly int _offset, _count;
 
-        public DdsHeaderBufferReader(byte[] buffer, IDdsPixelFormatBufferReaderFactory factory) : this(buffer, factory, 0, buffer.Length)
+        public DdsHeaderByteArrayReader(byte[] buffer, IDdsPixelFormatByteArrayReaderFactory factory) : this(buffer, factory, 0, buffer.Length)
         {
         }
 
-        public DdsHeaderBufferReader(byte[] buffer, IDdsPixelFormatBufferReaderFactory factory, int offset, int count)
+        public DdsHeaderByteArrayReader(byte[] buffer, IDdsPixelFormatByteArrayReaderFactory factory, int offset, int count)
         {
             _buffer = buffer;
             _factory = factory;

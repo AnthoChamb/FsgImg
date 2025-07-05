@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 
 namespace FsgImg.IO
 {
-    public class ImgHeaderBufferReader : IImgHeaderReader
+    public class ImgHeaderByteArrayReader : IImgHeaderReader
     {
         private readonly IImgHeaderFactory _factory;
         private readonly byte[] _buffer;
         private readonly int _offset, _count;
 
-        public ImgHeaderBufferReader(IImgHeaderFactory factory, byte[] buffer) : this(factory, buffer, 0, buffer.Length)
+        public ImgHeaderByteArrayReader(IImgHeaderFactory factory, byte[] buffer) : this(factory, buffer, 0, buffer.Length)
         {
         }
 
-        public ImgHeaderBufferReader(IImgHeaderFactory factory, byte[] buffer, int offset, int count)
+        public ImgHeaderByteArrayReader(IImgHeaderFactory factory, byte[] buffer, int offset, int count)
         {
             _factory = factory;
             _buffer = buffer;

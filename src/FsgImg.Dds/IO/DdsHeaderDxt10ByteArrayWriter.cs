@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace FsgImg.Dds.IO
 {
-    public class DdsHeaderDxt10BufferWriter : IDdsHeaderDxt10Writer
+    public class DdsHeaderDxt10ByteArrayWriter : IDdsHeaderDxt10Writer
     {
         private readonly byte[] _buffer;
         private readonly int _offset, _count;
 
-        public DdsHeaderDxt10BufferWriter(byte[] buffer) : this(buffer, 0, buffer.Length)
+        public DdsHeaderDxt10ByteArrayWriter(byte[] buffer) : this(buffer, 0, buffer.Length)
         {
         }
 
-        public DdsHeaderDxt10BufferWriter(byte[] buffer, int offset, int count)
+        public DdsHeaderDxt10ByteArrayWriter(byte[] buffer, int offset, int count)
         {
             _buffer = buffer;
             _offset = offset;

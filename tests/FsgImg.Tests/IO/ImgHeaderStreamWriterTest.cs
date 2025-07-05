@@ -13,7 +13,7 @@ namespace FsgImg.Tests.IO
     public class ImgHeaderStreamWriterTest
     {
         protected virtual IImgHeaderStreamWriterFactory Factory { get; } =
-            new ImgHeaderStreamWriterFactory(new ImgHeaderBufferWriterFactory());
+            new ImgHeaderStreamWriterFactory(new ImgHeaderByteArrayWriterFactory());
 
         [Fact]
         public void Write_Xbox360Bc1_WritesImgHeaderToStream()

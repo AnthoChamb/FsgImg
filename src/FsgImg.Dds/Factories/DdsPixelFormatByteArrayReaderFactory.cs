@@ -4,11 +4,11 @@ using FsgImg.Dds.IO;
 
 namespace FsgImg.Dds.Factories
 {
-    public class DdsPixelFormatBufferReaderFactory : IDdsPixelFormatBufferReaderFactory
+    public class DdsPixelFormatByteArrayReaderFactory : IDdsPixelFormatByteArrayReaderFactory
     {
         public IDdsPixelFormatReader Create(byte[] buffer, int offset, int count)
         {
-            return new DdsPixelFormatBufferReader(buffer, offset, count);
+            return new DdsPixelFormatByteArrayReader(buffer, offset, count);
         }
     }
 }

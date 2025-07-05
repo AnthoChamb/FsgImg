@@ -9,9 +9,9 @@ using Xunit;
 
 namespace FsgImg.Tests.IO
 {
-    public class ImgHeaderBufferReaderTest
+    public class ImgHeaderByteArrayReaderTest
     {
-        protected virtual IImgHeaderBufferReaderFactory Factory { get; } = new ImgHeaderBufferReaderFactory(new ImgHeaderFactory());
+        protected virtual IImgHeaderByteArrayReaderFactory Factory { get; } = new ImgHeaderByteArrayReaderFactory(new ImgHeaderFactory());
 
         [Fact]
         public void Read_Xbox360Bc1_ReturnsImgHeader()

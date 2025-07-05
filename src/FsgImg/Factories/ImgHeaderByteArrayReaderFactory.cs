@@ -4,18 +4,18 @@ using FsgImg.IO;
 
 namespace FsgImg.Factories
 {
-    public class ImgHeaderBufferReaderFactory : IImgHeaderBufferReaderFactory
+    public class ImgHeaderByteArrayReaderFactory : IImgHeaderByteArrayReaderFactory
     {
         private readonly IImgHeaderFactory _factory;
 
-        public ImgHeaderBufferReaderFactory(IImgHeaderFactory factory)
+        public ImgHeaderByteArrayReaderFactory(IImgHeaderFactory factory)
         {
             _factory = factory;
         }
 
         public IImgHeaderReader Create(byte[] buffer, int offset, int count)
         {
-            return new ImgHeaderBufferReader(_factory, buffer, offset, count);
+            return new ImgHeaderByteArrayReader(_factory, buffer, offset, count);
         }
     }
 }

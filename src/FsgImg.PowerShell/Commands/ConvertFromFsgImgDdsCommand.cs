@@ -34,9 +34,9 @@ namespace FsgImg.PowerShell.Commands
                 Platform = Platform,
             };
 
-            var readerFactory = new DdsStreamReaderFactory(new DdsHeaderStreamReaderFactory(new DdsHeaderBufferReaderFactory(new DdsPixelFormatBufferReaderFactory())),
-                                                           new DdsHeaderDxt10StreamReaderFactory(new DdsHeaderDxt10BufferReaderFactory()));
-            var writerFactory = new ImgHeaderStreamWriterFactory(new ImgHeaderBufferWriterFactory());
+            var readerFactory = new DdsStreamReaderFactory(new DdsHeaderStreamReaderFactory(new DdsHeaderByteArrayReaderFactory(new DdsPixelFormatByteArrayReaderFactory())),
+                                                           new DdsHeaderDxt10StreamReaderFactory(new DdsHeaderDxt10ByteArrayReaderFactory()));
+            var writerFactory = new ImgHeaderStreamWriterFactory(new ImgHeaderByteArrayWriterFactory());
             var converterFactory = new DdsToImgStreamConverterFactory(new DdsToImgHeaderConverter(new ImgHeaderFactory()),
                                                                       readerFactory,
                                                                       writerFactory,

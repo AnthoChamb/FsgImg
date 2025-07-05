@@ -19,11 +19,11 @@ namespace FsgImg.IO
         private readonly bool _leaveOpen;
         private bool _disposed;
 
-        public ImgHeaderStreamWriter(Stream stream, IImgHeaderBufferWriterFactory factory) : this(stream, factory, false)
+        public ImgHeaderStreamWriter(Stream stream, IImgHeaderByteArrayWriterFactory factory) : this(stream, factory, false)
         {
         }
 
-        public ImgHeaderStreamWriter(Stream stream, IImgHeaderBufferWriterFactory factory, bool leaveOpen)
+        public ImgHeaderStreamWriter(Stream stream, IImgHeaderByteArrayWriterFactory factory, bool leaveOpen)
         {
             _stream = stream;
             _buffer = ArrayPool<byte>.Shared.Rent(ImgConstants.ImgHeaderSize);

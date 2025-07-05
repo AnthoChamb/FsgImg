@@ -36,9 +36,9 @@ namespace FsgImg.CommandLine.Actions
                 Platform = platform,
             };
 
-            var readerFactory = new ImgHeaderStreamReaderFactory(new ImgHeaderBufferReaderFactory(new ImgHeaderFactory()));
-            var writerFactory = new DdsStreamWriterFactory(new DdsHeaderStreamWriterFactory(new DdsHeaderBufferWriterFactory(new DdsPixelFormatBufferWriterFactory())),
-                                                           new DdsHeaderDxt10StreamWriterFactory(new DdsHeaderDxt10BufferWriterFactory()));
+            var readerFactory = new ImgHeaderStreamReaderFactory(new ImgHeaderByteArrayReaderFactory(new ImgHeaderFactory()));
+            var writerFactory = new DdsStreamWriterFactory(new DdsHeaderStreamWriterFactory(new DdsHeaderByteArrayWriterFactory(new DdsPixelFormatByteArrayWriterFactory())),
+                                                           new DdsHeaderDxt10StreamWriterFactory(new DdsHeaderDxt10ByteArrayWriterFactory()));
             var converterFactory = new ImgToDdsStreamConverterFactory(new ImgHeaderToDdsConverter(new TextureFactory()),
                                                                       readerFactory,
                                                                       writerFactory,

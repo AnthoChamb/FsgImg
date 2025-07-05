@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace FsgImg.Dds.IO
 {
-    public class DdsPixelFormatBufferReader : IDdsPixelFormatReader
+    public class DdsPixelFormatByteArrayReader : IDdsPixelFormatReader
     {
         private readonly byte[] _buffer;
         private readonly int _offset, _count;
 
-        public DdsPixelFormatBufferReader(byte[] buffer) : this(buffer, 0, buffer.Length)
+        public DdsPixelFormatByteArrayReader(byte[] buffer) : this(buffer, 0, buffer.Length)
         {
         }
 
-        public DdsPixelFormatBufferReader(byte[] buffer, int offset, int count)
+        public DdsPixelFormatByteArrayReader(byte[] buffer, int offset, int count)
         {
             _buffer = buffer;
             _offset = offset;

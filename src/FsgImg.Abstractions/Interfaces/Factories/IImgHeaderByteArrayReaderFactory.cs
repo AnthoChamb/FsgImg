@@ -2,7 +2,7 @@
 
 namespace FsgImg.Abstractions.Interfaces.Factories
 {
-    public interface IImgHeaderBufferReaderFactory
+    public interface IImgHeaderByteArrayReaderFactory
     {
         IImgHeaderReader Create(byte[] buffer, int offset, int count);
     }

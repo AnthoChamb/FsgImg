@@ -7,9 +7,9 @@ namespace FsgImg.Dds.Factories
 {
     public class DdsHeaderDxt10StreamWriterFactory : IDdsHeaderDxt10StreamWriterFactory
     {
-        private readonly IDdsHeaderDxt10BufferWriterFactory _factory;
+        private readonly IDdsHeaderDxt10ByteArrayWriterFactory _factory;
 
-        public DdsHeaderDxt10StreamWriterFactory(IDdsHeaderDxt10BufferWriterFactory factory)
+        public DdsHeaderDxt10StreamWriterFactory(IDdsHeaderDxt10ByteArrayWriterFactory factory)
         {
             _factory = factory;
         }
