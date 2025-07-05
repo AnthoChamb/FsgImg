@@ -7,7 +7,7 @@ namespace FsgImg.Pvr
     public class PvrHeader : IPvrHeader
     {
         public uint Version { get; set; } = PvrConstants.PvrVersion;
-        public PvrFlags Flags { get; set; }
+        public PvrHeaderFlags Flags { get; set; }
         public PvrPixelFormat PixelFormat { get; set; }
         public PvrColourSpace ColourSpace { get; set; }
         public PvrChannelType ChannelType { get; set; }

@@ -5,7 +5,7 @@ namespace FsgImg.Pvr.Abstractions.Interfaces
     public interface IPvrHeader
     {
         uint Version { get; set; }
-        PvrFlags Flags { get; set; }
+        PvrHeaderFlags Flags { get; set; }
         PvrPixelFormat PixelFormat { get; set; }
         PvrColourSpace ColourSpace { get; set; }
         PvrChannelType ChannelType { get; set; }
