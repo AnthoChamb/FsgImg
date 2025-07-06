@@ -1,4 +1,5 @@
 ﻿using FsgImg.Abstractions.Interfaces.Factories;
+using FsgImg.Pvr.Abstractions;
 using FsgImg.Pvr.Abstractions.Interfaces;
 using FsgImg.Pvr.Abstractions.Interfaces.Converters;
 using FsgImg.Pvr.Abstractions.Interfaces.Factories;
@@ -76,6 +77,7 @@ namespace FsgImg.Pvr.Converters
                 writer.Write(imgHeader);
             }
 
+            _inputStream.Seek(-PvrConstants.PvrHeaderSize, SeekOrigin.Current);
             _inputStream.CopyTo(_outputStream);
         }
 
@@ -94,6 +96,7 @@ namespace FsgImg.Pvr.Converters
                 await writer.WriteAsync(imgHeader);
             }
 
+            _inputStream.Seek(-PvrConstants.PvrHeaderSize, SeekOrigin.Current);
             await _inputStream.CopyToAsync(_outputStream, 81920, cancellationToken);
         }
     }
