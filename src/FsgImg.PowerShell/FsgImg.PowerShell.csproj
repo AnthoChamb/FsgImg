@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FsgImg.Dds\FsgImg.Dds.csproj" />
+    <ProjectReference Include="..\FsgImg.Pvr\FsgImg.Pvr.csproj" />
     <ProjectReference Include="..\FsgImg\FsgImg.csproj" />
   </ItemGroup>
 

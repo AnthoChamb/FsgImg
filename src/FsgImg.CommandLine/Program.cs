@@ -11,7 +11,9 @@ namespace FsgImg.CommandLine
             var rootCommand = new RootCommand();
 
             rootCommand.Subcommands.Add(new ConvertFromDdsCommand());
+            rootCommand.Subcommands.Add(new ConvertFromPvrCommand());
             rootCommand.Subcommands.Add(new ConvertToDdsCommand());
+            rootCommand.Subcommands.Add(new ConvertToPvrCommand());
 
             await rootCommand.Parse(args).InvokeAsync();
         }
