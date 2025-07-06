@@ -1,6 +1,7 @@
 ﻿using FsgImg.Pvr.Abstractions.Enums;
 using FsgImg.Pvr.Abstractions.Interfaces;
 using FsgImg.Pvr.Abstractions.Interfaces.IO;
+using FsgImg.Pvr.Exceptions;
 using System;
 using System.Buffers.Binary;
 using System.Threading;
@@ -33,8 +34,11 @@ namespace FsgImg.Pvr.IO
         {
             var span = new ReadOnlySpan<byte>(_buffer, _offset, _count);
 
+            var version = BinaryPrimitives.ReadUInt32LittleEndian(span);
+            InvalidPvrVersionException.ThrowIfInvalid(version);
+
             var pvrHeader = new PvrHeader();
-            pvrHeader.Version = BinaryPrimitives.ReadUInt32LittleEndian(span);
+            pvrHeader.Version = version;
             span = span.Slice(sizeof(uint));
 
             pvrHeader.Flags = (PvrHeaderFlags)BinaryPrimitives.ReadUInt32LittleEndian(span);
