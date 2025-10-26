@@ -50,6 +50,9 @@ namespace FsgImg.Pvr.IO
             pvrHeader.ColourSpace = (PvrColourSpace)BinaryPrimitives.ReadUInt32LittleEndian(span);
             span = span.Slice(sizeof(uint));
 
+            pvrHeader.ChannelType = (PvrChannelType)BinaryPrimitives.ReadUInt32LittleEndian(span);
+            span = span.Slice(sizeof(uint));
+
             pvrHeader.Height = BinaryPrimitives.ReadUInt32LittleEndian(span);
             span = span.Slice(sizeof(uint));
 
