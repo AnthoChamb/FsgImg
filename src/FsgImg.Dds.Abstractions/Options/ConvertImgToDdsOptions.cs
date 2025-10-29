@@ -2,7 +2,7 @@
 
 namespace FsgImg.Dds.Abstractions.Options
 {
-    public class ConvertToOptions
+    public class ConvertImgToDdsOptions
     {
         public DdsImgPlatform? Platform { get; set; }
     }

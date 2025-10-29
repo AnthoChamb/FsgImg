@@ -25,7 +25,7 @@ namespace FsgImg.PowerShell.Commands
 
         protected override void ProcessRecord()
         {
-            var options = new ConvertToOptions
+            var options = new ConvertImgToDdsOptions
             {
                 Platform = Platform,
             };
@@ -47,7 +47,7 @@ namespace FsgImg.PowerShell.Commands
                 using (var outputStream = File.Create(dest))
                 using (var converter = converterFactory.Create(inputStream, outputStream, true))
                 {
-                    converter.ConvertTo(options);
+                    converter.Convert(options);
                 }
             }
         }

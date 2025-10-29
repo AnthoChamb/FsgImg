@@ -30,7 +30,7 @@ namespace FsgImg.CommandLine.Actions
             using (var outputStream = output.Create())
             using (var converter = converterFactory.Create(inputStream, outputStream, true))
             {
-                await converter.ConvertToAsync(cancellationToken);
+                await converter.ConvertAsync(cancellationToken);
             }
 
             return 0;

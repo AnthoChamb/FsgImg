@@ -6,7 +6,7 @@ namespace FsgImg.Pvr.Abstractions.Interfaces.Converters
 {
     public interface IImgToPvrConverter : IDisposable
     {
-        void ConvertTo();
-        Task ConvertToAsync(CancellationToken cancellationToken = default);
+        void Convert();
+        Task ConvertAsync(CancellationToken cancellationToken = default);
     }
 }

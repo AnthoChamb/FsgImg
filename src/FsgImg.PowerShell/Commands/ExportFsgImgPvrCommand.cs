@@ -29,7 +29,7 @@ namespace FsgImg.PowerShell.Commands
                 using (var outputStream = File.Create(dest))
                 using (var converter = converterFactory.Create(inputStream, outputStream, true))
                 {
-                    converter.ConvertTo();
+                    converter.Convert();
                 }
             }
         }

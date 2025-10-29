@@ -34,7 +34,7 @@ namespace FsgImg.CommandLine.Actions
             var game = parseResult.GetRequiredValue(_gameOption);
             var platform = parseResult.GetRequiredValue(_platformOption);
 
-            var options = new ConvertFromOptions
+            var options = new ConvertDdsToImgOptions
             {
                 Game = game,
                 Platform = platform,
@@ -52,7 +52,7 @@ namespace FsgImg.CommandLine.Actions
             using (var outputStream = output.Create())
             using (var converter = converterFactory.Create(inputStream, outputStream, true))
             {
-                await converter.ConvertFromAsync(options, cancellationToken);
+                await converter.ConvertAsync(options, cancellationToken);
             }
 
             return 0;

@@ -62,7 +62,7 @@ namespace FsgImg.Pvr.Converters
             }
         }
 
-        public void ConvertFrom()
+        public void Convert()
         {
             IPvrHeader pvrHeader;
             using (var reader = _readerFactory.Create(_inputStream, true))
@@ -70,7 +70,7 @@ namespace FsgImg.Pvr.Converters
                 pvrHeader = reader.Read();
             }
 
-            var imgHeader = _converter.ConvertFrom(pvrHeader);
+            var imgHeader = _converter.Convert(pvrHeader);
 
             using (var writer = _writerFactory.Create(_outputStream, true))
             {
@@ -81,7 +81,7 @@ namespace FsgImg.Pvr.Converters
             _inputStream.CopyTo(_outputStream);
         }
 
-        public async Task ConvertFromAsync(CancellationToken cancellationToken = default)
+        public async Task ConvertAsync(CancellationToken cancellationToken = default)
         {
             IPvrHeader pvrHeader;
             using (var reader = _readerFactory.Create(_inputStream, true))
@@ -89,7 +89,7 @@ namespace FsgImg.Pvr.Converters
                 pvrHeader = await reader.ReadAsync();
             }
 
-            var imgHeader = _converter.ConvertFrom(pvrHeader);
+            var imgHeader = _converter.Convert(pvrHeader);
 
             using (var writer = _writerFactory.Create(_outputStream, true))
             {

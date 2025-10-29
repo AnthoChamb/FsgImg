@@ -18,7 +18,7 @@ namespace FsgImg.Dds.Converters
             _factory = factory;
         }
 
-        public IImgHeader ConvertFrom(IDds dds, ConvertFromOptions options)
+        public IImgHeader Convert(IDds dds, ConvertDdsToImgOptions options)
         {
             var ddsHeader = dds.Header;
             var ddsFourCc = ddsHeader.PixelFormat.FourCc;

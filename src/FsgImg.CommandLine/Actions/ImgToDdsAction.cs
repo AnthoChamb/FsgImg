@@ -31,7 +31,7 @@ namespace FsgImg.CommandLine.Actions
             var output = parseResult.GetValue(_outputOption) ?? new FileInfo(Path.ChangeExtension(input.FullName, DdsConstants.DdsExtension));
             var platform = parseResult.GetValue(_platformOption);
 
-            var options = new ConvertToOptions
+            var options = new ConvertImgToDdsOptions
             {
                 Platform = platform,
             };
@@ -48,7 +48,7 @@ namespace FsgImg.CommandLine.Actions
             using (var outputStream = output.Create())
             using (var converter = converterFactory.Create(inputStream, outputStream, true))
             {
-                await converter.ConvertToAsync(options, cancellationToken);
+                await converter.ConvertAsync(options, cancellationToken);
             }
 
             return 0;

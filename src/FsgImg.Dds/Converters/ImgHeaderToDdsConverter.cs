@@ -18,7 +18,7 @@ namespace FsgImg.Dds.Converters
             _factory = factory;
         }
 
-        public IDds ConvertTo(IImgHeader imgHeader)
+        public IDds Convert(IImgHeader imgHeader)
         {
             var height = imgHeader.Height;
             var width = imgHeader.Width;

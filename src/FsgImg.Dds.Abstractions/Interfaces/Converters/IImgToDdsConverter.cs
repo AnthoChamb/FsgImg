@@ -7,7 +7,7 @@ namespace FsgImg.Dds.Abstractions.Interfaces.Converters
 {
     public interface IImgToDdsConverter : IDisposable
     {
-        void ConvertTo(ConvertToOptions options);
-        Task ConvertToAsync(ConvertToOptions options, CancellationToken cancellationToken = default);
+        void Convert(ConvertImgToDdsOptions options);
+        Task ConvertAsync(ConvertImgToDdsOptions options, CancellationToken cancellationToken = default);
     }
 }

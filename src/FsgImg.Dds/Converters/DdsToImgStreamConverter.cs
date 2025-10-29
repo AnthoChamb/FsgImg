@@ -67,7 +67,7 @@ namespace FsgImg.Dds.Converters
             }
         }
 
-        public void ConvertFrom(ConvertFromOptions options)
+        public void Convert(ConvertDdsToImgOptions options)
         {
             IDds dds;
             using (var reader = _readerFactory.Create(_inputStream, true))
@@ -75,7 +75,7 @@ namespace FsgImg.Dds.Converters
                 dds = reader.Read();
             }
 
-            var imgHeader = _converter.ConvertFrom(dds, options);
+            var imgHeader = _converter.Convert(dds, options);
 
             using (var writer = _writerFactory.Create(_outputStream, true))
             {
@@ -87,7 +87,7 @@ namespace FsgImg.Dds.Converters
             _inputStream.CopyTo(imgStream);
         }
 
-        public async Task ConvertFromAsync(ConvertFromOptions options, CancellationToken cancellationToken = default)
+        public async Task ConvertAsync(ConvertDdsToImgOptions options, CancellationToken cancellationToken = default)
         {
             IDds dds;
             using (var reader = _readerFactory.Create(_inputStream, true))
@@ -95,7 +95,7 @@ namespace FsgImg.Dds.Converters
                 dds = await reader.ReadAsync(cancellationToken);
             }
 
-            var imgHeader = _converter.ConvertFrom(dds, options);
+            var imgHeader = _converter.Convert(dds, options);
 
             using (var writer = _writerFactory.Create(_outputStream, true))
             {

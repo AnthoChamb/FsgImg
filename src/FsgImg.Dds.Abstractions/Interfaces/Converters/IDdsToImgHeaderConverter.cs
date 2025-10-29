@@ -5,6 +5,6 @@ namespace FsgImg.Dds.Abstractions.Interfaces.Converters
 {
     public interface IDdsToImgHeaderConverter
     {
-        IImgHeader ConvertFrom(IDds dds, ConvertFromOptions options);
+        IImgHeader Convert(IDds dds, ConvertDdsToImgOptions options);
     }
 }

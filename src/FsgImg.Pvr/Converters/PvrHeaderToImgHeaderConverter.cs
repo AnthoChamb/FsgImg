@@ -15,7 +15,7 @@ namespace FsgImg.Pvr.Converters
             _factory = factory;
         }
 
-        public IImgHeader ConvertFrom(IPvrHeader pvrHeader)
+        public IImgHeader Convert(IPvrHeader pvrHeader)
         {
             return _factory.Create((ushort)pvrHeader.Width,
                                    (ushort)pvrHeader.Height,

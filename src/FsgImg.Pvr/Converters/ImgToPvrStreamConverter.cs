@@ -38,13 +38,13 @@ namespace FsgImg.Pvr.Converters
             }
         }
 
-        public void ConvertTo()
+        public void Convert()
         {
             _inputStream.Seek(ImgConstants.ImgHeaderSize, SeekOrigin.Current);
             _inputStream.CopyTo(_outputStream);
         }
 
-        public async Task ConvertToAsync(CancellationToken cancellationToken = default)
+        public async Task ConvertAsync(CancellationToken cancellationToken = default)
         {
             _inputStream.Seek(ImgConstants.ImgHeaderSize, SeekOrigin.Current);
             await _inputStream.CopyToAsync(_outputStream, 81920, cancellationToken);
