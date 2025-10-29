@@ -1,16 +1,14 @@
 ﻿using FsgImg.Abstractions;
-using FsgImg.Dds.Abstractions.Enums;
-using FsgImg.Dds.Abstractions.Options;
-using FsgImg.Dds.Converters;
-using FsgImg.Dds.Factories;
 using FsgImg.Factories;
+using FsgImg.Pvr.Converters;
+using FsgImg.Pvr.Factories;
 using System.IO;
 using System.Management.Automation;
 
 namespace FsgImg.PowerShell.Commands
 {
-    [Cmdlet(VerbsData.ConvertFrom, "FsgImgDds")]
-    public class ConvertFromFsgImgDdsCommand : PSCmdlet
+    [Cmdlet(VerbsCommon.New, "FsgImgPvr")]
+    public class NewFsgImgPvrCommand : PSCmdlet
     {
         [Alias("PSPath")]
         [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true)]
@@ -20,27 +18,13 @@ namespace FsgImg.PowerShell.Commands
         [Parameter(Position = 1)]
         public string Destination { get; set; }
 
-        [Parameter]
-        public DdsImgGame Game { get; set; } = DdsImgGame.ConsoleGhl;
-
-        [Parameter(Mandatory = true)]
-        public DdsImgPlatform Platform { get; set; }
-
         protected override void ProcessRecord()
         {
-            var options = new ConvertFromOptions
-            {
-                Game = Game,
-                Platform = Platform,
-            };
-
-            var readerFactory = new DdsStreamReaderFactory(new DdsHeaderStreamReaderFactory(new DdsHeaderByteArrayReaderFactory(new DdsPixelFormatByteArrayReaderFactory())),
-                                                           new DdsHeaderDxt10StreamReaderFactory(new DdsHeaderDxt10ByteArrayReaderFactory()));
+            var readerFactory = new PvrHeaderStreamReaderFactory(new PvrHeaderByteArrayReaderFactory());
             var writerFactory = new ImgHeaderStreamWriterFactory(new ImgHeaderByteArrayWriterFactory());
-            var converterFactory = new DdsToImgStreamConverterFactory(new DdsToImgHeaderConverter(new ImgHeaderFactory()),
+            var converterFactory = new PvrToImgStreamConverterFactory(new PvrHeaderToImgHeaderConverter(new ImgHeaderFactory()),
                                                                       readerFactory,
-                                                                      writerFactory,
-                                                                      new ImgStreamFactory());
+                                                                      writerFactory);
 
             foreach (var path in LiteralPath)
             {
@@ -51,7 +35,7 @@ namespace FsgImg.PowerShell.Commands
                 using (var outputStream = File.Create(dest))
                 using (var converter = converterFactory.Create(inputStream, outputStream, true))
                 {
-                    converter.ConvertFrom(options);
+                    converter.ConvertFrom();
                 }
             }
         }

@@ -5,8 +5,8 @@ using System.Management.Automation;
 
 namespace FsgImg.PowerShell.Commands
 {
-    [Cmdlet(VerbsData.ConvertTo, "FsgImgPvr")]
-    public class ConvertToFsgImgPvrCommand : PSCmdlet
+    [Cmdlet(VerbsData.Export, "FsgImgPvr")]
+    public class ExportFsgImgPvrCommand : PSCmdlet
     {
         [Alias("PSPath")]
         [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true)]
