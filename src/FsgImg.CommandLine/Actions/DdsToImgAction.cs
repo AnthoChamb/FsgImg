@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace FsgImg.CommandLine.Actions
 {
-    public class ConvertFromDdsAction : AsynchronousCommandLineAction
+    public class DdsToImgAction : AsynchronousCommandLineAction
     {
         private readonly Argument<FileInfo> _inputArgument;
         private readonly Option<FileInfo> _outputOption;
         private readonly Option<DdsImgGame> _gameOption;
         private readonly Option<DdsImgPlatform> _platformOption;
 
-        public ConvertFromDdsAction(Argument<FileInfo> inputArgument, Option<FileInfo> outputOption, Option<DdsImgGame> gameOption, Option<DdsImgPlatform> platformOption)
+        public DdsToImgAction(Argument<FileInfo> inputArgument, Option<FileInfo> outputOption, Option<DdsImgGame> gameOption, Option<DdsImgPlatform> platformOption)
         {
             _inputArgument = inputArgument;
             _outputOption = outputOption;

@@ -5,9 +5,9 @@ using System.IO;
 
 namespace FsgImg.CommandLine.Commands
 {
-    public class ConvertFromDdsCommand : Command
+    public class DdsToImgCommand : Command
     {
-        public ConvertFromDdsCommand() : base("convert-from-dds")
+        public DdsToImgCommand() : base("dds-to-img")
         {
             var inputArgument = new Argument<FileInfo>("input");
 
@@ -20,7 +20,7 @@ namespace FsgImg.CommandLine.Commands
 
             var platformOption = new Option<DdsImgPlatform>("--platform", "-p");
 
-            Action = new ConvertFromDdsAction(inputArgument, outputOption, gameOption, platformOption);
+            Action = new DdsToImgAction(inputArgument, outputOption, gameOption, platformOption);
             Arguments.Add(inputArgument);
             Options.Add(outputOption);
             Options.Add(gameOption);

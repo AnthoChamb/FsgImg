@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace FsgImg.CommandLine.Actions
 {
-    public class ConvertToPvrAction : AsynchronousCommandLineAction
+    public class ImgToPvrAction : AsynchronousCommandLineAction
     {
         private readonly Argument<FileInfo> _inputArgument;
         private readonly Option<FileInfo> _outputOption;
 
-        public ConvertToPvrAction(Argument<FileInfo> inputArgument, Option<FileInfo> outputOption)
+        public ImgToPvrAction(Argument<FileInfo> inputArgument, Option<FileInfo> outputOption)
         {
             _inputArgument = inputArgument;
             _outputOption = outputOption;

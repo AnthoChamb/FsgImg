@@ -4,15 +4,15 @@ using System.IO;
 
 namespace FsgImg.CommandLine.Commands
 {
-    public class ConvertFromPvrCommand : Command
+    public class ImgToPvrCommand : Command
     {
-        public ConvertFromPvrCommand() : base("convert-from-pvr")
+        public ImgToPvrCommand() : base("img-to-pvr")
         {
             var inputArgument = new Argument<FileInfo>("input");
 
             var outputOption = new Option<FileInfo>("--output", "-o");
 
-            Action = new ConvertFromPvrAction(inputArgument, outputOption);
+            Action = new ImgToPvrAction(inputArgument, outputOption);
             Arguments.Add(inputArgument);
             Options.Add(outputOption);
         }

@@ -10,10 +10,10 @@ namespace FsgImg.CommandLine
         {
             var rootCommand = new RootCommand();
 
-            rootCommand.Subcommands.Add(new ConvertFromDdsCommand());
-            rootCommand.Subcommands.Add(new ConvertFromPvrCommand());
-            rootCommand.Subcommands.Add(new ConvertToDdsCommand());
-            rootCommand.Subcommands.Add(new ConvertToPvrCommand());
+            rootCommand.Subcommands.Add(new DdsToImgCommand());
+            rootCommand.Subcommands.Add(new PvrToImgCommand());
+            rootCommand.Subcommands.Add(new ImgToDdsCommand());
+            rootCommand.Subcommands.Add(new ImgToPvrCommand());
 
             await rootCommand.Parse(args).InvokeAsync();
         }

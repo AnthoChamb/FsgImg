@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace FsgImg.CommandLine.Actions
 {
-    public class ConvertFromPvrAction : AsynchronousCommandLineAction
+    public class PvrToImgAction : AsynchronousCommandLineAction
     {
         private readonly Argument<FileInfo> _inputArgument;
         private readonly Option<FileInfo> _outputOption;
 
-        public ConvertFromPvrAction(Argument<FileInfo> inputArgument, Option<FileInfo> outputOption)
+        public PvrToImgAction(Argument<FileInfo> inputArgument, Option<FileInfo> outputOption)
         {
             _inputArgument = inputArgument;
             _outputOption = outputOption;
