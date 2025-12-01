@@ -144,7 +144,7 @@ namespace FsgImg.IO
         public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
             _bufferTransform.Transform(buffer, offset, count);
-            return BaseStream.WriteAsync(buffer, offset, count);
+            return BaseStream.WriteAsync(buffer, offset, count, cancellationToken);
         }
 
         public override void WriteByte(byte value)
