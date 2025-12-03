@@ -3,7 +3,7 @@ param(
     [Parameter(Mandatory, Position = 0, ValueFromPipeline, ValueFromPipelineByPropertyName)]
     [string[]]$LiteralPath,
 
-    [Alias("o")]
+    [Alias("d")]
     [Parameter(Position = 1)]
     [string]$Destination,
 
@@ -11,25 +11,22 @@ param(
     [string[]]$Remaining,
 
     [Parameter()]
-    [FsgImg.Dds.Abstractions.Enums.DdsImgGame]$Game = [FsgImg.Dds.Abstractions.Enums.DdsImgGame]::ConsoleGhl,
-
-    [Parameter(Mandatory)]
-    [FsgImg.Dds.Abstractions.Enums.DdsImgPlatform]$Platform
+    [System.Nullable[FsgImg.Dds.Abstractions.Enums.DdsImgPlatform]]$Platform
 )
 
 foreach ($path in $LiteralPath) {
     if (-not $Destination) {
-        $Destination = [System.IO.Path]::ChangeExtension($path, [FsgImg.Abstractions.ImgConstants]::ImgExtension)
+        $Destination = [System.IO.Path]::ChangeExtension($path, '.png')
     }
 
     $ddsFile = [System.IO.Path]::ChangeExtension($Destination, [FsgImg.Dds.Abstractions.DdsConstants]::DdsExtension)
 
-    # Convert input file to DDS using PVRTexToolCLI
-    PVRTexToolCLI -i $path -o $ddsFile $Remaining
+    # Convert IMG file to DDS using FsgImg PowerShell module
+    Export-FsgImgDds $path $ddsFile -Platform $Platform
 
     try {
-        # Convert DDS file to IMG using FsgImg PowerShell module
-        New-FsgImgDds $ddsFile $Destination -Game $Game -Platform $Platform
+        # Convert DDS file to decompressed file using PVRTexToolCLI
+        PVRTexToolCLI -i $ddsFile -noout -d $Destination $Remaining
     }
     finally {
         # Delete intermediate DDS file
