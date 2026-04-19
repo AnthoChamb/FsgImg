@@ -1,0 +1,20 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/FsgImg.Abstractions/FsgImg.Abstractions.csproj" />
+    <Project Path="src/FsgImg.CommandLine/FsgImg.CommandLine.csproj" />
+    <Project Path="src/FsgImg.Dds.Abstractions/FsgImg.Dds.Abstractions.csproj" />
+    <Project Path="src/FsgImg.Dds/FsgImg.Dds.csproj" />
+    <Project Path="src/FsgImg.Gtx.Abstractions/FsgImg.Gtx.Abstractions.csproj" />
+    <Project Path="src/FsgImg.IO/FsgImg.IO.csproj" />
+    <Project Path="src/FsgImg.PowerShell/FsgImg.PowerShell.csproj" />
+    <Project Path="src/FsgImg.Pvr.Abstractions/FsgImg.Pvr.Abstractions.csproj" />
+    <Project Path="src/FsgImg.Pvr/FsgImg.Pvr.csproj" />
+    <Project Path="src/FsgImg/FsgImg.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/FsgImg.Tests/FsgImg.Tests.csproj" />
+  </Folder>
+</Solution>
