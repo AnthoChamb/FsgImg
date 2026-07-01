@@ -8,6 +8,7 @@
     <Project Path="src/FsgImg.Dds.Abstractions/FsgImg.Dds.Abstractions.csproj" />
     <Project Path="src/FsgImg.Dds/FsgImg.Dds.csproj" />
     <Project Path="src/FsgImg.Gtx.Abstractions/FsgImg.Gtx.Abstractions.csproj" />
+    <Project Path="src/FsgImg.Gtx/FsgImg.Gtx.csproj" />
     <Project Path="src/FsgImg.IO/FsgImg.IO.csproj" />
     <Project Path="src/FsgImg.PowerShell/FsgImg.PowerShell.csproj" />
     <Project Path="src/FsgImg.Pvr.Abstractions/FsgImg.Pvr.Abstractions.csproj" />
