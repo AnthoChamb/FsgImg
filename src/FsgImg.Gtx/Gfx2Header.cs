@@ -5,7 +5,7 @@ namespace FsgImg.Gtx
 {
     public class Gfx2Header : IGfx2Header
     {
-        public uint Magic { get; set; }
+        public uint Magic { get; set; } = GtxConstants.Gfx2HeaderMagic;
         public uint Size { get; set; } = GtxConstants.Gfx2HeaderSize;
         public uint MajorVersion { get; set; }
         public uint MinorVersion { get; set; }

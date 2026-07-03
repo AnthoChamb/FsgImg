@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FsgImg.Gtx.Abstractions\FsgImg.Gtx.Abstractions.csproj" />
+    <ProjectReference Include="..\FsgImg.IO\FsgImg.IO.csproj" />
   </ItemGroup>
 
 </Project>
